@@ -1,12 +1,9 @@
-import {element} from 'protractor';
-import * as _ from 'lodash';
-import {TestBed, fakeAsync, tick} from '@angular/core/testing';
-import {Type, DebugElement, EventEmitter} from '@angular/core';
-import {By} from '@angular/platform-browser';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {ComponentFixture} from '@angular/core/testing';
-import {promise} from 'selenium-webdriver';
+import * as _ from "lodash";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {DebugElement, EventEmitter, Type} from "@angular/core";
+import {By} from "@angular/platform-browser";
+import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 export {http} from './server';
 
 interface Action {
@@ -15,6 +12,7 @@ interface Action {
 
 export interface Fixture {
     perform(...actions: Action[]): Promise<any> | void;
+    verify(...actions: Action[]): Promise<any> | void;
 }
 
 export interface App {
@@ -52,12 +50,14 @@ function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture
     let debugElement = fixture.debugElement;
     return {
         perform(...actions: Action[]) {
-
             return done = fixture.ngZone.run(() => {
                 return [...actions /*, destroy*/].reduce((prev, action) => {
                     return prev.then(() => action(fixture));
                 }, done);
             });
+        },
+        verify(...actions: Action[]) {
+            return this.perform(...actions);
         }
     };
 }

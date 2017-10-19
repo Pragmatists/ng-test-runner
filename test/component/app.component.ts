@@ -6,10 +6,9 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'app works!';
-  pass = '';
+  label = '';
 
   edit() {
-    console.log("asdasdasd");
-    this.pass = 'Wojtek';
+    this.label = 'Wojtek';
   }
 }

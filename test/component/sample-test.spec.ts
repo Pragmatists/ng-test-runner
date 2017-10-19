@@ -31,7 +31,7 @@ describe('Manager Component', () => {
         );
 
         // then:
-        comp.perform(
+        comp.verify(
             expectThat.textOf('.clicker').toEqual('Wojtek')
         );
     });
