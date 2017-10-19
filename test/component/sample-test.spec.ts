@@ -1,5 +1,5 @@
 import {AppComponent} from "./app.component";
-import test, {App, click, expectThat, http} from "../../src/test-utils";
+import test, {App, click, expectThat, http, type} from "../../src/test-utils";
 import {AppModule} from "./app.module";
 import {Server} from "../../src/server";
 
@@ -13,26 +13,36 @@ describe('Manager Component', () => {
     });
 
     it('initial value', () => {
-        // when:
         const comp = app.run(AppComponent);
 
-        // then:
         comp.perform(
-            expectThat.textOf('.wojtek').toEqual('app works!')
+            expectThat.textOf('.title').toEqual('Fancy title!')
         );
     });
 
-    it('click', () => {
-        // when:
+    it('greets person', () => {
         const comp = app.run(AppComponent);
 
         comp.perform(
-            click.in('.clicker')
+            type('Jane').in('input.name'),
+            click.in('button#hello')
         );
 
-        // then:
         comp.verify(
-            expectThat.textOf('.clicker').toEqual('Wojtek')
+            expectThat.textOf('.greeting').toEqual('Hello Jane!')
+        );
+    });
+
+    it('goodbye server response', () => {
+        const comp = app.run(AppComponent);
+        server.post('/goodbye', req => req.sendJson({message: 'Goodbye Jane!'}));
+
+        comp.perform(
+            click.in('button.goodbye')
+        );
+
+        comp.verify(
+            expectThat.textOf('.greeting').toEqual('Goodbye Jane!')
         );
     });
 

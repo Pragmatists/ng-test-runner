@@ -1,4 +1,5 @@
-<h1 class="wojtek">
-  {{title}}
-</h1>
-<div class="clicker" (click)="edit()">{{label}}</div>
+<h1 class="title"> {{title}} </h1>
+<input class="name" [(ngModel)]="name">
+<div class="greeting">{{message}}</div>
+<button id="hello" (click)="sayHello()">Say hello</button>
+<button class="goodbye" (click)="sayGoodbye()">Say goodbye</button>

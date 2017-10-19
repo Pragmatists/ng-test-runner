@@ -1,14 +1,30 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+    selector: 'app-root',
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'app works!';
-  label = '';
+    title = 'Fancy title!';
+    label = '';
+    name = '';
+    message = '';
 
-  edit() {
-    this.label = 'Wojtek';
-  }
+    constructor(private http: HttpClient) {
+
+    }
+
+    edit() {
+        this.label = 'Wojtek';
+    }
+
+    sayHello() {
+        this.message = `Hello ${this.name}!`
+    }
+
+    sayGoodbye() {
+        this.http.post<any>('/goodbye', {})
+            .subscribe(({message}) => this.message = message);
+    }
 }
