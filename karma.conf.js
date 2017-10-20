@@ -18,10 +18,10 @@ module.exports = function (config) {
         },
         files: [
 
-            { pattern: './test.ts', watched: false }
+            { pattern: './test/test.ts', watched: false }
         ],
         preprocessors: {
-            './test.ts': ['@angular/cli']
+            './test/test.ts': ['@angular/cli']
         },
         mime: {
             'text/x-typescript': ['ts','tsx']
