@@ -1,6 +1,6 @@
-import * as _ from 'lodash';
-import * as sinon from 'sinon';
-import { SinonFakeXMLHttpRequest, SinonFakeServer } from "sinon";
+import * as _ from "lodash";
+import * as sinon from "sinon";
+import {SinonFakeXMLHttpRequest} from "sinon";
 
 interface HttpMethod {
     (url: string | RegExp, handler: (r: Req) => void): void;
@@ -25,10 +25,10 @@ interface Req {
 
 export function http(config = {autoRespond: true, respondImmediately: true}): Server {
 
-    var server = sinon.fakeServer.create();
+    const server = sinon.fakeServer.create();
     _.merge(server, config);
 
-    var that = {
+    const that = {
         post: method('POST'),
         get: method('GET'),
         delete: method('DELETE'),
@@ -59,7 +59,7 @@ function wrap(req: SinonFakeXMLHttpRequest): Req {
             return JSON.parse(req.requestBody);
         },
         query: function() {
-            var query = req.url.split('#')[0].split('?')[1];
+            const query = req.url.split('#')[0].split('?')[1];
             return _(query)
                 .split('&')
                 .map(_.partial(_.split, _, '=', 2))

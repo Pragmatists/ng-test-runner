@@ -52,7 +52,7 @@ function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture
         perform(...actions: Action[]) {
             return done = fixture.ngZone.run(() => {
                 return [...actions /*, destroy*/].reduce((prev, action) => {
-                    return prev.then(() => action(fixture));
+                    return prev.then(() => action(fixture)).catch(err => fail(err));
                 }, done);
             });
         },
@@ -293,7 +293,7 @@ function find(debugElement: DebugElement, selector: string): HTMLElement {
         return element.nativeElement;
     }
     let debug = debugElement.nativeElement as HTMLElement;
-    throw `Could not find ${selector}!`;
+    throw new Error(`Could not find ${selector} element!`);
 }
 
 function findAll(debugElement: DebugElement, selector: string): HTMLElement[] {
