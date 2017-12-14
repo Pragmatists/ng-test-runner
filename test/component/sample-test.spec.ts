@@ -1,5 +1,5 @@
 import {AppComponent} from "./app.component";
-import test, {App, click, expectThat, http, type} from "../../src/test-utils";
+import test, {App, click, expectThat, http, type} from "../../index";
 import {AppModule} from "./app.module";
 import {Server} from "../../src/server";
 
