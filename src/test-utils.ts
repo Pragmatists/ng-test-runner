@@ -4,6 +4,7 @@ import {DebugElement, EventEmitter, Type} from "@angular/core";
 import {By} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
+import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from "@angular/platform-browser-dynamic/testing";
 export {http} from './server';
 
 export interface Action {
@@ -168,7 +169,7 @@ export function navigateToUrl(url: string) {
 };
 
 
-interface Query {
+export interface Query {
     element(css: string): HTMLElement;
     elements(css: string): HTMLElement[];
     textOf(css: string): string;
@@ -233,13 +234,13 @@ export function waitUntil(assertion: (query: Query) => void): Action {
     };
 };
 
-interface Assertion {
+export interface Assertion {
     toEqual(value: any): Action;
     toContain(value: any): Action;
     toHaveSize(value: number): Action;
     toExist(): Action;
 }
-interface NotAssertion {
+export interface NotAssertion {
     not: Assertion;
 }
 

@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import * as sinon from "sinon";
 import {SinonFakeXMLHttpRequest} from "sinon";
 
-interface HttpMethod {
+export interface HttpMethod {
     (url: string | RegExp, handler: (r: Req) => void): void;
 }
 
@@ -15,7 +15,7 @@ export interface Server {
     stop(): void;
 }
 
-interface Req {
+export interface Req {
     body(): string;
     query(): any;
     header(name: string): string;
