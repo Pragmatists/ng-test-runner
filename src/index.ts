@@ -15,4 +15,5 @@ export {
 } from './test-utils';
 
 export {Server, http, HttpMethod, Req} from './server';
-export * from "./test-utils";
+import test from "./test-utils";
+export default test;

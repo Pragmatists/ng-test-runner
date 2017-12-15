@@ -1,7 +1,4 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
 var test_utils_1 = require("./test-utils");
 exports.click = test_utils_1.click;
@@ -18,4 +15,5 @@ exports.wait = test_utils_1.wait;
 exports.waitUntil = test_utils_1.waitUntil;
 var server_1 = require("./server");
 exports.http = server_1.http;
-__export(require("./test-utils"));
+var test_utils_2 = require("./test-utils");
+exports.default = test_utils_2.default;
