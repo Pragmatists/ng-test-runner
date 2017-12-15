@@ -1,6 +1,7 @@
-export {App, http} from './src/test-utils';
+export {App, http, Action, Fixture} from './src/test-utils';
 export {
     click,
+    check,
     submit,
     expectThat,
     type,
@@ -13,5 +14,6 @@ export {
     waitUntil
 } from './src/test-utils';
 
+export {Server, http} from './src/server';
 import test from "./src/test-utils";
 export default test;

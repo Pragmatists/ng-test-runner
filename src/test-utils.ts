@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {Location} from "@angular/common";
 export {http} from './server';
 
-interface Action {
+export interface Action {
     (fixture: ComponentFixture<any>): Promise<any> | any;
 }
 
@@ -79,6 +79,16 @@ export const click = {
         return whenStable(fixture => {
             let element = find(fixture.debugElement, selector);
             element.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+        });
+    }
+};
+
+export const check = {
+    in(selector: string): Action {
+        return whenStable(fixture => {
+            const input = find(fixture.debugElement, selector) as HTMLInputElement;
+            input.checked = true;
+            input.dispatchEvent(new Event('change'));
         });
     }
 };
