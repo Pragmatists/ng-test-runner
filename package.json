@@ -23,7 +23,13 @@
     "url": "https://github.com/Pragmatists/ng-test-runner/issues"
   },
   "homepage": "https://github.com/Pragmatists/ng-test-runner#readme",
-  "peerDependencies": {
+  "dependencies": {
+    "@types/sinon": "^2.3.6",
+    "lodash": "^4.17.4",
+    "protractor": "^5.2.0",
+    "sinon": "^4.0.1"
+  },
+  "devDependencies": {
     "@angular/cli": "1.4.8",
     "@angular/common": "^4.4.6",
     "@angular/compiler": "^4.4.6",
@@ -33,15 +39,7 @@
     "@angular/http": "^4.4.6",
     "@angular/platform-browser": "^4.4.6",
     "@angular/platform-browser-dynamic": "^4.4.6",
-    "@angular/router": "^4.4.6"
-  },
-  "dependencies": {
-    "@types/sinon": "^2.3.6",
-    "lodash": "^4.17.4",
-    "protractor": "^5.2.0",
-    "sinon": "^4.0.1"
-  },
-  "devDependencies": {
+    "@angular/router": "^4.4.6",
     "@types/es6-promise": "0.0.33",
     "@types/jasmine": "2.5.38",
     "@types/lodash": "^4.14.77",
