@@ -4,7 +4,7 @@ import {DebugElement, EventEmitter, Type} from "@angular/core";
 import {By} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
-import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from "@angular/platform-browser-dynamic/testing";
+
 export {http} from './server';
 
 export interface Action {
@@ -13,6 +13,7 @@ export interface Action {
 
 export interface Fixture {
     perform(...actions: Action[]): Promise<any> | void;
+
     verify(...actions: Action[]): Promise<any> | void;
 }
 
@@ -105,17 +106,30 @@ export const submit = {
 
 
 export function type(text: string) {
+    function isContentEditable(htmlElement: HTMLElement) {
+        return htmlElement instanceof HTMLElement && htmlElement.getAttribute('contenteditable') === "true";
+    }
+
     return {
         in(selector: string): Action {
             return whenStable(fixture => {
-                let input = find(fixture.debugElement, selector) as HTMLInputElement;
-                input.value = text;
-                input.dispatchEvent(new Event('input'));
+                let htmlElement: HTMLElement = find(fixture.debugElement, selector);
+
+                if (isContentEditable(htmlElement)) {
+                    htmlElement.textContent = text;
+                    htmlElement.dispatchEvent(new Event('input'));
+                    htmlElement.dispatchEvent(new Event('keyup'));
+                    htmlElement.dispatchEvent(new Event('blur'));
+                } else {
+                    let input = htmlElement as HTMLInputElement;
+                    input.value = text;
+                    htmlElement.dispatchEvent(new Event('input'));
+                    htmlElement.dispatchEvent(new Event('keyup'));
+                }
             });
         }
     };
 };
-
 const codes = {
     ESC: 27
 } as { [key: string]: number };
@@ -171,8 +185,11 @@ export function navigateToUrl(url: string) {
 
 export interface Query {
     element(css: string): HTMLElement;
+
     elements(css: string): HTMLElement[];
+
     textOf(css: string): string;
+
     location(): string;
 }
 
@@ -213,6 +230,7 @@ export function waitUntil(assertion: (query: Query) => void): Action {
 
         // fixture.detectChanges();
         return new Promise((resolve) => checkCondition(resolve));
+
         function checkCondition(resolve: () => any) {
 
             setTimeout(() => {
@@ -236,10 +254,14 @@ export function waitUntil(assertion: (query: Query) => void): Action {
 
 export interface Assertion {
     toEqual(value: any): Action;
+
     toContain(value: any): Action;
+
     toHaveSize(value: number): Action;
+
     toExist(): Action;
 }
+
 export interface NotAssertion {
     not: Assertion;
 }

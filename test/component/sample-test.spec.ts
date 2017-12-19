@@ -46,5 +46,17 @@ describe('Manager Component', () => {
         );
     });
 
+    it('has editable content', () => {
+        const comp = app.run(AppComponent);
+
+        comp.perform(
+            type('new content').in('#editor')
+        );
+
+        comp.verify(
+            expectThat.textOf('#editor').toEqual('new content')
+        );
+    });
+
 
 });

@@ -101,12 +101,25 @@ exports.submit = {
     }
 };
 function type(text) {
+    function isContentEditable(htmlElement) {
+        return htmlElement instanceof HTMLElement && htmlElement.getAttribute('contenteditable') === "true";
+    }
     return {
         in: function (selector) {
             return whenStable(function (fixture) {
-                var input = find(fixture.debugElement, selector);
-                input.value = text;
-                input.dispatchEvent(new Event('input'));
+                var htmlElement = find(fixture.debugElement, selector);
+                if (isContentEditable(htmlElement)) {
+                    htmlElement.textContent = text;
+                    htmlElement.dispatchEvent(new Event('input'));
+                    htmlElement.dispatchEvent(new Event('keyup'));
+                    htmlElement.dispatchEvent(new Event('blur'));
+                }
+                else {
+                    var input = htmlElement;
+                    input.value = text;
+                    htmlElement.dispatchEvent(new Event('input'));
+                    htmlElement.dispatchEvent(new Event('keyup'));
+                }
             });
         }
     };
