@@ -253,55 +253,52 @@ export function waitUntil(assertion: (query: Query) => void): Action {
 };
 
 export interface Assertion {
-    toEqual(value: any): Action;
+    isEqualTo(value: any): Action;
 
-    toContain(value: any): Action;
+    isNotEqualTo(value: any): Action;
 
-    toHaveSize(value: number): Action;
+    contains(value: any): Action;
 
-    toExist(): Action;
+    doesNotContain(value: any): Action;
+
+    hasSize(value: number): Action;
+
+    exists(): Action;
+
+    doesNotExist(): Action;
 }
 
-export interface NotAssertion {
-    not: Assertion;
-}
-
-function assertion(valueFn: (e: ComponentFixture<any>) => any): Assertion & NotAssertion {
+function assertion(valueFn: (e: ComponentFixture<any>) => any): Assertion {
     return {
-        toEqual(value: any) {
+        isEqualTo(value: any) {
             return whenStable(fixture => expect(valueFn(fixture)).toEqual(value));
         },
-        toContain(value: any) {
+        isNotEqualTo(value: any) {
+            return whenStable(fixture => expect(valueFn(fixture)).not.toEqual(value));
+        },
+        contains(value: any) {
             return whenStable(fixture => expect(valueFn(fixture)).toContain(value));
         },
-        toHaveSize(value: number) {
+        doesNotContain(value: any) {
+            return whenStable(fixture => expect(valueFn(fixture)).not.toContain(value));
+        },
+        hasSize(value: number) {
             return whenStable(fixture => expect(valueFn(fixture).length).toEqual(value));
         },
-        toExist() {
+        exists() {
             return whenStable(fixture => expect(valueFn(fixture).length).toBeGreaterThan(0));
         },
-        not: {
-            toEqual(value: any) {
-                return whenStable(fixture => expect(valueFn(fixture)).not.toEqual(value));
-            },
-            toContain(value: any) {
-                return whenStable(fixture => expect(valueFn(fixture)).not.toContain(value));
-            },
-            toHaveSize(value: number) {
-                return whenStable(fixture => expect(valueFn(fixture).length).not.toEqual(value));
-            },
-            toExist() {
-                return whenStable(fixture => expect(valueFn(fixture).length).not.toBeGreaterThan(0));
-            },
+        doesNotExist() {
+            return whenStable(fixture => expect(valueFn(fixture).length).not.toBeGreaterThan(0));
         }
     };
 }
 
-function first(map: (e: HTMLElement) => any): (css: string) => Assertion & NotAssertion {
+function first(map: (e: HTMLElement) => any): (css: string) => Assertion {
     return (selector: string) => assertion((fixture) => map(find(fixture.debugElement, selector)));
 }
 
-function all(map: (e: HTMLElement) => any): (css: string) => Assertion & NotAssertion {
+function all(map: (e: HTMLElement) => any): (css: string) => Assertion {
     return (selector: string) => assertion((fixture) => findAll(fixture.debugElement, selector).map(map));
 }
 

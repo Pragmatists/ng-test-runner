@@ -44,20 +44,20 @@ export declare function assert(assertion: (query: Query) => void): Action;
 export declare function wait(time: number): Action;
 export declare function waitUntil(assertion: (query: Query) => void): Action;
 export interface Assertion {
-    toEqual(value: any): Action;
-    toContain(value: any): Action;
-    toHaveSize(value: number): Action;
-    toExist(): Action;
-}
-export interface NotAssertion {
-    not: Assertion;
+    isEqualTo(value: any): Action;
+    isNotEqualTo(value: any): Action;
+    contains(value: any): Action;
+    doesNotContain(value: any): Action;
+    hasSize(value: number): Action;
+    exists(): Action;
+    doesNotExist(): Action;
 }
 export declare const expectThat: {
-    valuesOf: (css: string) => Assertion & NotAssertion;
-    valueOf: (css: string) => Assertion & NotAssertion;
-    element: (css: string) => Assertion & NotAssertion;
-    textOf: (css: string) => Assertion & NotAssertion;
-    textsOf: (css: string) => Assertion & NotAssertion;
-    cssClassesOf: (css: string) => Assertion & NotAssertion;
-    location: Assertion & NotAssertion;
+    valuesOf: (css: string) => Assertion;
+    valueOf: (css: string) => Assertion;
+    element: (css: string) => Assertion;
+    textOf: (css: string) => Assertion;
+    textsOf: (css: string) => Assertion;
+    cssClassesOf: (css: string) => Assertion;
+    location: Assertion;
 };

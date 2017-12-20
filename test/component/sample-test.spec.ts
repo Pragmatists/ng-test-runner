@@ -16,7 +16,7 @@ describe('Manager Component', () => {
         const comp = app.run(AppComponent);
 
         comp.perform(
-            expectThat.textOf('.title').toEqual('Fancy title!')
+            expectThat.textOf('.title').isEqualTo('Fancy title!')
         );
     });
 
@@ -29,7 +29,7 @@ describe('Manager Component', () => {
         );
 
         comp.verify(
-            expectThat.textOf('.greeting').toEqual('Hello Jane!')
+            expectThat.textOf('.greeting').isEqualTo('Hello Jane!')
         );
     });
 
@@ -42,7 +42,7 @@ describe('Manager Component', () => {
         );
 
         comp.verify(
-            expectThat.textOf('.greeting').toEqual('Goodbye Jane!')
+            expectThat.textOf('.greeting').isEqualTo('Goodbye Jane!')
         );
     });
 
@@ -54,7 +54,7 @@ describe('Manager Component', () => {
         );
 
         comp.verify(
-            expectThat.textOf('#editor').toEqual('new content')
+            expectThat.textOf('#editor').isEqualTo('new content')
         );
     });
 

@@ -240,31 +240,26 @@ exports.waitUntil = waitUntil;
 ;
 function assertion(valueFn) {
     return {
-        toEqual: function (value) {
+        isEqualTo: function (value) {
             return whenStable(function (fixture) { return expect(valueFn(fixture)).toEqual(value); });
         },
-        toContain: function (value) {
+        isNotEqualTo: function (value) {
+            return whenStable(function (fixture) { return expect(valueFn(fixture)).not.toEqual(value); });
+        },
+        contains: function (value) {
             return whenStable(function (fixture) { return expect(valueFn(fixture)).toContain(value); });
         },
-        toHaveSize: function (value) {
+        doesNotContain: function (value) {
+            return whenStable(function (fixture) { return expect(valueFn(fixture)).not.toContain(value); });
+        },
+        hasSize: function (value) {
             return whenStable(function (fixture) { return expect(valueFn(fixture).length).toEqual(value); });
         },
-        toExist: function () {
+        exists: function () {
             return whenStable(function (fixture) { return expect(valueFn(fixture).length).toBeGreaterThan(0); });
         },
-        not: {
-            toEqual: function (value) {
-                return whenStable(function (fixture) { return expect(valueFn(fixture)).not.toEqual(value); });
-            },
-            toContain: function (value) {
-                return whenStable(function (fixture) { return expect(valueFn(fixture)).not.toContain(value); });
-            },
-            toHaveSize: function (value) {
-                return whenStable(function (fixture) { return expect(valueFn(fixture).length).not.toEqual(value); });
-            },
-            toExist: function () {
-                return whenStable(function (fixture) { return expect(valueFn(fixture).length).not.toBeGreaterThan(0); });
-            },
+        doesNotExist: function () {
+            return whenStable(function (fixture) { return expect(valueFn(fixture).length).not.toBeGreaterThan(0); });
         }
     };
 }

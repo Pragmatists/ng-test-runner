@@ -1,4 +1,4 @@
-export {App, Action, Fixture, Query, Assertion, NotAssertion} from './test-utils';
+export {App, Action, Fixture, Query, Assertion} from './test-utils';
 export {
     click,
     check,
