@@ -1,7 +1,6 @@
 import {AppComponent} from "./app.component";
-import test, {App, click, expectThat, http, type} from "../../src/index";
 import {AppModule} from "./app.module";
-import {Server} from "../../src/index";
+import test, {App, check, click, expectThat, http, Server, type} from "../../dist/index";
 
 describe('Manager Component', () => {
 
@@ -58,6 +57,26 @@ describe('Manager Component', () => {
         );
     });
 
+    it('initially checkbox is not checked', () => {
+        const comp = app.run(AppComponent);
+
+        comp.verify(
+            expectThat.valueOf('#checkbox').isEqualTo(false)
+        );
+    });
+
+    it('check checkbox', () => {
+        const comp = app.run(AppComponent);
+
+        comp.perform(
+            check.in('#checkbox')
+        );
+
+        comp.verify(
+            expectThat.valueOf('#checkbox').isEqualTo(true)
+        );
+    });
+
     it('allows to verify with plural syntex', () => {
         const comp = app.run(AppComponent);
 
@@ -66,7 +85,6 @@ describe('Manager Component', () => {
             expectThat.cssClassesOf('div').contain('greeting'),
             expectThat.valuesOf('input').areEqualTo(['', false]),
             expectThat.elements('h1').haveSize(1)
-
         )
     })
 

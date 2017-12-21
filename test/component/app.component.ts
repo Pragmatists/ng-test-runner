@@ -10,6 +10,7 @@ export class AppComponent {
     label = '';
     name = '';
     message = 'nothing yet';
+    checkboxValue = false;
 
     constructor(private http: HttpClient) {
 
