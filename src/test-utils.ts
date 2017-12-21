@@ -66,7 +66,7 @@ function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture
 
 function whenStable(action: Action): Action {
     return function (fixture) {
-        return fixture.whenStable().then(() => action(fixture)); //.then(() => fixture.detectChanges());
+        return fixture.whenStable().then(() => action(fixture));
     };
 }
 
@@ -104,7 +104,6 @@ export const submit = {
     }
 };
 
-
 export function type(text: string) {
     function isContentEditable(htmlElement: HTMLElement) {
         return htmlElement instanceof HTMLElement && htmlElement.getAttribute('contenteditable') === "true";
@@ -129,7 +128,8 @@ export function type(text: string) {
             });
         }
     };
-};
+}
+
 const codes = {
     ESC: 27
 } as { [key: string]: number };
@@ -143,8 +143,7 @@ export function keydown(key: string) {
             });
         }
     };
-};
-
+}
 
 export function select(value: string, ...more: string[]) {
     return {
@@ -166,22 +165,21 @@ export function select(value: string, ...more: string[]) {
             });
         }
     };
-};
+}
 
 export function navigateTo(url: string, params?: any) {
     return forceDetectChanges(whenStable(fixture => {
         const router = TestBed.get(Router);
         router.navigate([url], {queryParams: {...params}});
     }));
-};
+}
 
 export function navigateToUrl(url: string) {
     return forceDetectChanges(whenStable(fixture => {
         const router = TestBed.get(Router);
         router.navigateByUrl(url);
     }));
-};
-
+}
 
 export interface Query {
     element(css: string): HTMLElement;
@@ -228,15 +226,11 @@ export function wait(time: number): Action {
 export function waitUntil(assertion: (query: Query) => void): Action {
     return function (fixture) {
 
-        // fixture.detectChanges();
         return new Promise((resolve) => checkCondition(resolve));
 
         function checkCondition(resolve: () => any) {
 
             setTimeout(() => {
-                // fixture.whenStable().then(() => {
-                // fixture.detectChanges();
-                // console.log('ngZone', fixture.ngZone);
                 try {
                     let result = assertion(query(fixture.debugElement));
                     if (result) {
@@ -244,13 +238,11 @@ export function waitUntil(assertion: (query: Query) => void): Action {
                     }
                 } catch (err) {
                 }
-
-                // });
                 return checkCondition(resolve);
             }, 50);
         }
     };
-};
+}
 
 export interface Assertion {
     isEqualTo(value: any): Action;
@@ -305,7 +297,7 @@ function all(map: (e: HTMLElement) => any): (css: string) => Assertion {
 function location(fixture: ComponentFixture<any>) {
     let location = TestBed.get(Location);
     return location.path();
-};
+}
 
 export const expectThat = {
     valuesOf: all((e: HTMLInputElement) => e.type === 'checkbox' ? e.checked : e.value),
