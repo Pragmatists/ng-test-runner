@@ -5,7 +5,7 @@ import {By} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
 
-export {http} from './server';
+export {http} from "./server";
 
 export interface Action {
     (fixture: ComponentFixture<any>): Promise<any> | any;
@@ -213,7 +213,7 @@ export function assert(assertion: (query: Query) => void): Action {
     return whenStable(fixture => {
         assertion(query(fixture.debugElement));
     });
-};
+}
 
 export function wait(time: number): Action {
     return function (fixture) {
@@ -221,7 +221,7 @@ export function wait(time: number): Action {
             return resolve();
         }, time));
     };
-};
+}
 
 export function waitUntil(assertion: (query: Query) => void): Action {
     return function (fixture) {
@@ -260,6 +260,22 @@ export interface Assertion {
     doesNotExist(): Action;
 }
 
+export interface PluralAssertion {
+    areEqualTo(value: any): Action;
+
+    areNotEqualTo(value: any): Action;
+
+    contain(value: any): Action;
+
+    doNotContain(value: any): Action;
+
+    haveSize(value: number): Action;
+
+    isNotEmpty(): Action;
+
+    isEmpty(): Action;
+}
+
 function assertion(valueFn: (e: ComponentFixture<any>) => any): Assertion {
     return {
         isEqualTo(value: any) {
@@ -286,12 +302,42 @@ function assertion(valueFn: (e: ComponentFixture<any>) => any): Assertion {
     };
 }
 
+function pluralAssertion(valueFn: (e: ComponentFixture<any>) => any): PluralAssertion {
+    return {
+        areEqualTo(value: any) {
+            return whenStable(fixture => expect(valueFn(fixture)).toEqual(value));
+        },
+        areNotEqualTo(value: any) {
+            return whenStable(fixture => expect(valueFn(fixture)).not.toEqual(value));
+        },
+        contain(value: any) {
+            return whenStable(fixture => expect(valueFn(fixture)).toContain(value));
+        },
+        doNotContain(value: any) {
+            return whenStable(fixture => expect(valueFn(fixture)).not.toContain(value));
+        },
+        haveSize(value: number) {
+            return whenStable(fixture => expect(valueFn(fixture).length).toEqual(value));
+        },
+        isNotEmpty() {
+            return whenStable(fixture => expect(valueFn(fixture).length).toBeGreaterThan(0));
+        },
+        isEmpty() {
+            return whenStable(fixture => expect(valueFn(fixture).length).not.toBeGreaterThan(0));
+        }
+    };
+}
+
 function first(map: (e: HTMLElement) => any): (css: string) => Assertion {
     return (selector: string) => assertion((fixture) => map(find(fixture.debugElement, selector)));
 }
 
-function all(map: (e: HTMLElement) => any): (css: string) => Assertion {
-    return (selector: string) => assertion((fixture) => findAll(fixture.debugElement, selector).map(map));
+function firstWithPluralAssertion(map: (e: HTMLElement) => any): (css: string) => PluralAssertion {
+    return (selector: string) => pluralAssertion((fixture) => map(find(fixture.debugElement, selector)));
+}
+
+function all(map: (e: HTMLElement) => any): (css: string) => PluralAssertion {
+    return (selector: string) => pluralAssertion((fixture) => findAll(fixture.debugElement, selector).map(map));
 }
 
 function location(fixture: ComponentFixture<any>) {
@@ -302,10 +348,11 @@ function location(fixture: ComponentFixture<any>) {
 export const expectThat = {
     valuesOf: all((e: HTMLInputElement) => e.type === 'checkbox' ? e.checked : e.value),
     valueOf: first((e: HTMLInputElement) => e.type === 'checkbox' ? e.checked : e.value),
-    element: all(_.identity),
+    element: first(_.identity),
+    elements: all(_.identity),
     textOf: first(e => e.textContent.trim()),
     textsOf: all(e => e.textContent.trim()),
-    cssClassesOf: first(e => e.classList),
+    cssClassesOf: firstWithPluralAssertion(e => e.classList),
     location: assertion(location)
 };
 

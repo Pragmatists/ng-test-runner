@@ -1,6 +1,6 @@
 import { ComponentFixture } from "@angular/core/testing";
 import { Type } from "@angular/core";
-export { http } from './server';
+export { http } from "./server";
 export interface Action {
     (fixture: ComponentFixture<any>): Promise<any> | any;
 }
@@ -52,12 +52,22 @@ export interface Assertion {
     exists(): Action;
     doesNotExist(): Action;
 }
+export interface PluralAssertion {
+    areEqualTo(value: any): Action;
+    areNotEqualTo(value: any): Action;
+    contain(value: any): Action;
+    doNotContain(value: any): Action;
+    haveSize(value: number): Action;
+    isNotEmpty(): Action;
+    isEmpty(): Action;
+}
 export declare const expectThat: {
-    valuesOf: (css: string) => Assertion;
+    valuesOf: (css: string) => PluralAssertion;
     valueOf: (css: string) => Assertion;
     element: (css: string) => Assertion;
+    elements: (css: string) => PluralAssertion;
     textOf: (css: string) => Assertion;
-    textsOf: (css: string) => Assertion;
-    cssClassesOf: (css: string) => Assertion;
+    textsOf: (css: string) => PluralAssertion;
+    cssClassesOf: (css: string) => PluralAssertion;
     location: Assertion;
 };

@@ -9,7 +9,7 @@ export class AppComponent {
     title = 'Fancy title!';
     label = '';
     name = '';
-    message = '';
+    message = 'nothing yet';
 
     constructor(private http: HttpClient) {
 

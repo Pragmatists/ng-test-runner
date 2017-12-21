@@ -67,7 +67,7 @@ function run(component, inputs, outputs) {
 }
 function whenStable(action) {
     return function (fixture) {
-        return fixture.whenStable().then(function () { return action(fixture); }); //.then(() => fixture.detectChanges());
+        return fixture.whenStable().then(function () { return action(fixture); });
     };
 }
 function forceDetectChanges(action) {
@@ -125,7 +125,6 @@ function type(text) {
     };
 }
 exports.type = type;
-;
 var codes = {
     ESC: 27
 };
@@ -140,7 +139,6 @@ function keydown(key) {
     };
 }
 exports.keydown = keydown;
-;
 function select(value) {
     var more = [];
     for (var _i = 1; _i < arguments.length; _i++) {
@@ -163,7 +161,6 @@ function select(value) {
     };
 }
 exports.select = select;
-;
 function navigateTo(url, params) {
     return forceDetectChanges(whenStable(function (fixture) {
         var router = testing_1.TestBed.get(router_1.Router);
@@ -171,7 +168,6 @@ function navigateTo(url, params) {
     }));
 }
 exports.navigateTo = navigateTo;
-;
 function navigateToUrl(url) {
     return forceDetectChanges(whenStable(function (fixture) {
         var router = testing_1.TestBed.get(router_1.Router);
@@ -179,7 +175,6 @@ function navigateToUrl(url) {
     }));
 }
 exports.navigateToUrl = navigateToUrl;
-;
 function query(debugElement) {
     return {
         element: function (css) {
@@ -203,7 +198,6 @@ function assert(assertion) {
     });
 }
 exports.assert = assert;
-;
 function wait(time) {
     return function (fixture) {
         return new Promise(function (resolve) { return setTimeout(function () {
@@ -212,16 +206,11 @@ function wait(time) {
     };
 }
 exports.wait = wait;
-;
 function waitUntil(assertion) {
     return function (fixture) {
-        // fixture.detectChanges();
         return new Promise(function (resolve) { return checkCondition(resolve); });
         function checkCondition(resolve) {
             setTimeout(function () {
-                // fixture.whenStable().then(() => {
-                // fixture.detectChanges();
-                // console.log('ngZone', fixture.ngZone);
                 try {
                     var result = assertion(query(fixture.debugElement));
                     if (result) {
@@ -230,14 +219,12 @@ function waitUntil(assertion) {
                 }
                 catch (err) {
                 }
-                // });
                 return checkCondition(resolve);
             }, 50);
         }
     };
 }
 exports.waitUntil = waitUntil;
-;
 function assertion(valueFn) {
     return {
         isEqualTo: function (value) {
@@ -263,24 +250,52 @@ function assertion(valueFn) {
         }
     };
 }
+function pluralAssertion(valueFn) {
+    return {
+        areEqualTo: function (value) {
+            return whenStable(function (fixture) { return expect(valueFn(fixture)).toEqual(value); });
+        },
+        areNotEqualTo: function (value) {
+            return whenStable(function (fixture) { return expect(valueFn(fixture)).not.toEqual(value); });
+        },
+        contain: function (value) {
+            return whenStable(function (fixture) { return expect(valueFn(fixture)).toContain(value); });
+        },
+        doNotContain: function (value) {
+            return whenStable(function (fixture) { return expect(valueFn(fixture)).not.toContain(value); });
+        },
+        haveSize: function (value) {
+            return whenStable(function (fixture) { return expect(valueFn(fixture).length).toEqual(value); });
+        },
+        isNotEmpty: function () {
+            return whenStable(function (fixture) { return expect(valueFn(fixture).length).toBeGreaterThan(0); });
+        },
+        isEmpty: function () {
+            return whenStable(function (fixture) { return expect(valueFn(fixture).length).not.toBeGreaterThan(0); });
+        }
+    };
+}
 function first(map) {
     return function (selector) { return assertion(function (fixture) { return map(find(fixture.debugElement, selector)); }); };
 }
+function firstWithPluralAssertion(map) {
+    return function (selector) { return pluralAssertion(function (fixture) { return map(find(fixture.debugElement, selector)); }); };
+}
 function all(map) {
-    return function (selector) { return assertion(function (fixture) { return findAll(fixture.debugElement, selector).map(map); }); };
+    return function (selector) { return pluralAssertion(function (fixture) { return findAll(fixture.debugElement, selector).map(map); }); };
 }
 function location(fixture) {
     var location = testing_1.TestBed.get(common_1.Location);
     return location.path();
 }
-;
 exports.expectThat = {
     valuesOf: all(function (e) { return e.type === 'checkbox' ? e.checked : e.value; }),
     valueOf: first(function (e) { return e.type === 'checkbox' ? e.checked : e.value; }),
-    element: all(_.identity),
+    element: first(_.identity),
+    elements: all(_.identity),
     textOf: first(function (e) { return e.textContent.trim(); }),
     textsOf: all(function (e) { return e.textContent.trim(); }),
-    cssClassesOf: first(function (e) { return e.classList; }),
+    cssClassesOf: firstWithPluralAssertion(function (e) { return e.classList; }),
     location: assertion(location)
 };
 function find(debugElement, selector) {

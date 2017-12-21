@@ -4,9 +4,10 @@
         "tslint:recommended"
     ],
     "jsRules": {
+    },
+    "rules": {
       "interface-name": false,
       "trailing-comma": false
     },
-    "rules": {},
     "rulesDirectory": []
 }
