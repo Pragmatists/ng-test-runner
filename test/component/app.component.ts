@@ -11,6 +11,7 @@ export class AppComponent {
     name = '';
     message = 'nothing yet';
     checkboxValue = false;
+    status = '';
 
     constructor(private http: HttpClient) {
 
@@ -27,5 +28,10 @@ export class AppComponent {
     sayGoodbye() {
         this.http.post<any>('/goodbye', {})
             .subscribe(({message}) => this.message = message);
+    }
+
+    update() {
+        this.http.put<any>('/update', {})
+            .subscribe(({message}) => this.status = message);
     }
 }

@@ -1,6 +1,6 @@
 import {AppComponent} from "./app.component";
 import {AppModule} from "./app.module";
-import test, {App, check, click, expectThat, http, Server, type} from "../../dist/index";
+import test, {App, check, click, expectThat, http, Server, type, submit} from "../../dist/index";
 
 describe('Manager Component', () => {
 
@@ -95,7 +95,19 @@ describe('Manager Component', () => {
             expectThat.element('h1').exists(),
             expectThat.element('h2').doesNotExist()
         )
-    })
+    });
 
+    it('submit form to update status', () => {
+        const comp = app.run(AppComponent);
+        server.put('/update', req => req.sendJson({message: 'Updated!'}));
+
+        comp.perform(
+            submit.form('form')
+        );
+
+        comp.verify(
+            expectThat.textOf('#status').isEqualTo('Updated!')
+        );
+    });
 
 });

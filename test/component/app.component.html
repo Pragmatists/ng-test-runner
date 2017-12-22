@@ -5,3 +5,6 @@
 <div id="editor" contenteditable="true">This needs to be edited!</div>
 <button id="hello" (click)="sayHello()">Say hello</button>
 <button class="goodbye" (click)="sayGoodbye()">Say goodbye</button>
+<form (ngSubmit)="update()">
+    <span id="status">{{status}}</span>
+</form>
