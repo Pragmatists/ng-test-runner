@@ -340,6 +340,10 @@ function all(map: (e: HTMLElement) => any): (css: string) => PluralAssertion {
     return (selector: string) => pluralAssertion((fixture) => findAll(fixture.debugElement, selector).map(map));
 }
 
+function allWithSingularAssertion(map: (e: HTMLElement) => any): (css: string) => Assertion {
+    return (selector: string) => assertion((fixture) => findAll(fixture.debugElement, selector).map(map));
+}
+
 function location(fixture: ComponentFixture<any>) {
     let location = TestBed.get(Location);
     return location.path();
@@ -348,7 +352,7 @@ function location(fixture: ComponentFixture<any>) {
 export const expectThat = {
     valuesOf: all((e: HTMLInputElement) => e.type === 'checkbox' ? e.checked : e.value),
     valueOf: first((e: HTMLInputElement) => e.type === 'checkbox' ? e.checked : e.value),
-    element: first(_.identity),
+    element: allWithSingularAssertion(_.identity),
     elements: all(_.identity),
     textOf: first(e => e.textContent.trim()),
     textsOf: all(e => e.textContent.trim()),

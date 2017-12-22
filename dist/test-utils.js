@@ -284,6 +284,9 @@ function firstWithPluralAssertion(map) {
 function all(map) {
     return function (selector) { return pluralAssertion(function (fixture) { return findAll(fixture.debugElement, selector).map(map); }); };
 }
+function allWithSingularAssertion(map) {
+    return function (selector) { return assertion(function (fixture) { return findAll(fixture.debugElement, selector).map(map); }); };
+}
 function location(fixture) {
     var location = testing_1.TestBed.get(common_1.Location);
     return location.path();
@@ -291,7 +294,7 @@ function location(fixture) {
 exports.expectThat = {
     valuesOf: all(function (e) { return e.type === 'checkbox' ? e.checked : e.value; }),
     valueOf: first(function (e) { return e.type === 'checkbox' ? e.checked : e.value; }),
-    element: first(_.identity),
+    element: allWithSingularAssertion(_.identity),
     elements: all(_.identity),
     textOf: first(function (e) { return e.textContent.trim(); }),
     textsOf: all(function (e) { return e.textContent.trim(); }),

@@ -77,7 +77,7 @@ describe('Manager Component', () => {
         );
     });
 
-    it('allows to verify with plural syntex', () => {
+    it('allows to verify with plural syntax', () => {
         const comp = app.run(AppComponent);
 
         comp.verify(
@@ -85,6 +85,15 @@ describe('Manager Component', () => {
             expectThat.cssClassesOf('div').contain('greeting'),
             expectThat.valuesOf('input').areEqualTo(['', false]),
             expectThat.elements('h1').haveSize(1)
+        )
+    });
+
+    it('check if element exists and doesNotExist', () => {
+        const comp = app.run(AppComponent);
+
+        comp.verify(
+            expectThat.element('h1').exists(),
+            expectThat.element('h2').doesNotExist()
         )
     })
 
