@@ -7,23 +7,23 @@ To install it, type:
     $ npm install ng-test-runner --save-dev
     
 ## Example
+Following example presents tests for simple counter component.
 
 ```typescript
 import test, {App, click, expectThat, http, Server} from "ng-test-runner";
-import {Component, Input, NgModule} from "@angular/core";
-import {Http, HttpModule} from "@angular/http";
+import {CounterComponent, CounterModule} from './counter';
 
 describe('Counter Component', () => {
 
     let app: App, server: Server;
 
     beforeEach(() => {
-        app = test(TestModule);
+        app = test(CounterModule);
         server = http();
     });
 
     it('should render counter initial value', () => {
-        const comp = app.run(CounterComponent, {value: 5});
+        const comp = app.run(CounterComponent, {value: 5}); // =>  <counter [value]="5"></counter>
 
         comp.verify(
             expectThat.textOf('.counter').isEqualTo('5')
@@ -60,31 +60,6 @@ describe('Counter Component', () => {
     });
 
 });
-
-@Component({
-    selector: 'counter',
-    template: `
-        <div class="counter">{{value}}</div>
-        <button class="increment" (click)="increment()"></button>
-    `
-})
-class CounterComponent {
-
-    @Input() value: number;
-
-    constructor(private http: Http) {}
-
-    increment() {
-        this.value++;
-        this.http.post('/counter/increment', {counter: this.value}).subscribe();
-    }
-}
-
-@NgModule({
-    declarations: [CounterComponent],
-    imports: [HttpModule]
-})
-class TestModule {}
 ```
 
 ## Features
