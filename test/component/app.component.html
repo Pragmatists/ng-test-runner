@@ -1,5 +1,5 @@
 <h1 class="title"> {{title}} </h1>
-<input class="name" [(ngModel)]="name">
+<input #nameInput class="name" [(ngModel)]="name">
 <input id="checkbox" type="checkbox" [(ngModel)]="checkboxValue"> I agree to the terms<br>
 <div class="greeting">{{message}}</div>
 <div id="editor" contenteditable="true">This needs to be edited!</div>

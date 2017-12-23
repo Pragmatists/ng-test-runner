@@ -1,6 +1,6 @@
 import {AppComponent} from "./app.component";
 import {AppModule} from "./app.module";
-import test, {App, check, click, expectThat, http, Server, type, submit} from "../../dist/index";
+import test, {App, check, click, expectThat, http, Server, type, submit, keydown} from "../../dist/index";
 
 describe('Manager Component', () => {
 
@@ -19,7 +19,7 @@ describe('Manager Component', () => {
         );
     });
 
-    it('greets person', () => {
+    it('greets person after button clicked', () => {
         const comp = app.run(AppComponent);
 
         comp.perform(
@@ -29,6 +29,19 @@ describe('Manager Component', () => {
 
         comp.verify(
             expectThat.textOf('.greeting').isEqualTo('Hello Jane!')
+        );
+    });
+
+    it('greets person after enter pressed', () => {
+        const comp = app.run(AppComponent);
+
+        comp.perform(
+            type('John').in('input.name'),
+            keydown('Enter').in('input.name')
+        );
+
+        comp.verify(
+            expectThat.textOf('.greeting').isEqualTo('Hello John!')
         );
     });
 
