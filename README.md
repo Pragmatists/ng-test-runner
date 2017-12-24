@@ -1,5 +1,6 @@
 # ng-test-runner
 [![Build Status](https://travis-ci.org/Pragmatists/ng-test-runner.svg?branch=master)](https://travis-ci.org/Pragmatists/ng-test-runner)
+[![npm version](https://badge.fury.io/js/ng-test-runner.svg)](https://badge.fury.io/js/ng-test-runner)
 
 ## Installation
 To install it, type:
