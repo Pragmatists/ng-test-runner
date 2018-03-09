@@ -7,10 +7,10 @@ function http(config) {
     var server = sinon.fakeServer.create();
     _.merge(server, config);
     var that = {
-        post: method('POST'),
-        get: method('GET'),
-        delete: method('DELETE'),
-        put: method('PUT'),
+        delete: method("DELETE"),
+        get: method("GET"),
+        post: method("POST"),
+        put: method("PUT"),
         respond: function () {
             server.respond();
         },
@@ -35,10 +35,10 @@ function wrap(req) {
             return JSON.parse(req.requestBody);
         },
         query: function () {
-            var query = req.url.split('#')[0].split('?')[1];
+            var query = req.url.split("#")[0].split("?")[1];
             return _(query)
-                .split('&')
-                .map(_.partial(_.split, _, '=', 2))
+                .split("&")
+                .map(_.partial(_.split, _, "=", 2))
                 .fromPairs()
                 .mapValues(decodeURIComponent)
                 .value();
@@ -47,10 +47,10 @@ function wrap(req) {
             return req.requestHeaders[name];
         },
         sendJson: function (json) {
-            req.respond(200, { 'Content-Type': 'application/json' }, JSON.stringify(json));
+            req.respond(200, { "Content-Type": "application/json" }, JSON.stringify(json));
         },
         sendStatus: function (status, json) {
-            req.respond(status, { 'Content-Type': 'application/json' }, JSON.stringify(json || {}));
+            req.respond(status, { "Content-Type": "application/json" }, JSON.stringify(json || {}));
         }
     };
 }

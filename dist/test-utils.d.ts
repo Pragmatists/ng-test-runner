@@ -1,9 +1,7 @@
-import { ComponentFixture } from "@angular/core/testing";
 import { Type } from "@angular/core";
+import { ComponentFixture } from "@angular/core/testing";
 export { http } from "./server";
-export interface Action {
-    (fixture: ComponentFixture<any>): Promise<any> | any;
-}
+export declare type Action = (fixture: ComponentFixture<any>) => Promise<any> | any;
 export interface Fixture {
     perform(...actions: Action[]): Promise<any> | void;
     verify(...actions: Action[]): Promise<any> | void;
@@ -14,6 +12,7 @@ export interface App {
 export default function app(...module: any[]): {
     run: (component: Type<any>, inputs?: any, outputs?: any) => Fixture;
 };
+export declare type SearchableElement = HTMLElement | SVGElement;
 export declare const click: {
     in(selector: string): Action;
 };
@@ -35,14 +34,14 @@ export declare function select(value: string, ...more: string[]): {
 export declare function navigateTo(url: string, params?: any): Action;
 export declare function navigateToUrl(url: string): Action;
 export interface Query {
-    element(css: string): HTMLElement;
-    elements(css: string): HTMLElement[];
+    element(css: string): SearchableElement;
+    elements(css: string): SearchableElement[];
     textOf(css: string): string;
     location(): string;
 }
-export declare function assert(assertion: (query: Query) => void): Action;
+export declare function assert(assertionFn: (query: Query) => void): Action;
 export declare function wait(time: number): Action;
-export declare function waitUntil(assertion: (query: Query) => void): Action;
+export declare function waitUntil(assertionFn: (query: Query) => void): Action;
 export interface Assertion {
     isEqualTo(value: any): Action;
     isNotEqualTo(value: any): Action;
@@ -62,12 +61,14 @@ export interface PluralAssertion {
     isEmpty(): Action;
 }
 export declare const expectThat: {
-    valuesOf: (css: string) => PluralAssertion;
-    valueOf: (css: string) => Assertion;
-    element: (css: string) => Assertion;
-    elements: (css: string) => PluralAssertion;
-    textOf: (css: string) => Assertion;
-    textsOf: (css: string) => PluralAssertion;
+    attributeOf: (css: string, ...args: any[]) => Assertion;
+    attributesOf: (css: string, ...args: any[]) => PluralAssertion;
     cssClassesOf: (css: string) => PluralAssertion;
+    element: (css: string) => Assertion;
+    elements: (css: string, ...args: any[]) => PluralAssertion;
     location: Assertion;
+    textOf: (css: string, ...args: any[]) => Assertion;
+    textsOf: (css: string, ...args: any[]) => PluralAssertion;
+    valueOf: (css: string, ...args: any[]) => Assertion;
+    valuesOf: (css: string, ...args: any[]) => PluralAssertion;
 };

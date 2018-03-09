@@ -1,6 +1,6 @@
 {
   "name": "ng-test-runner",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
@@ -54,6 +54,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-junit-reporter": "^1.2.0",
     "karma-typescript-preprocessor": "^0.3.1",
+    "ssri": "^5.2.2",
     "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.2",

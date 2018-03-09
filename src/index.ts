@@ -1,4 +1,4 @@
-export {App, Action, Fixture, Query, Assertion} from './test-utils';
+export {App, Action, Fixture, Query, Assertion} from "./test-utils";
 export {
     click,
     check,
@@ -12,8 +12,8 @@ export {
     assert,
     wait,
     waitUntil
-} from './test-utils';
+} from "./test-utils";
 
-export {Server, http, HttpMethod, Req} from './server';
+export {Server, http, HttpMethod, Req} from "./server";
 import test from "./test-utils";
 export default test;

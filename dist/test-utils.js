@@ -9,10 +9,9 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
-var testing_1 = require("@angular/core/testing");
-var platform_browser_1 = require("@angular/platform-browser");
-var router_1 = require("@angular/router");
 var common_1 = require("@angular/common");
+var testing_1 = require("@angular/core/testing");
+var router_1 = require("@angular/router");
 var server_1 = require("./server");
 exports.http = server_1.http;
 function app() {
@@ -36,25 +35,24 @@ function run(component, inputs, outputs) {
     var componentInstance = fixture.componentInstance;
     _.merge(componentInstance, inputs);
     _.each(outputs, function (listener, property) {
-        var emitter = componentInstance[property + 'Change'];
+        var emitter = componentInstance[property + "Change"];
         if (emitter) {
             emitter.subscribe(listener);
         }
     });
     fixture.autoDetectChanges();
     var done = fixture.whenRenderingDone();
-    var debugElement = fixture.debugElement;
     return {
         perform: function () {
             var actions = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 actions[_i] = arguments[_i];
             }
-            return done = fixture.ngZone.run(function () {
+            return (done = fixture.ngZone.run(function () {
                 return actions /*, destroy*/.slice().reduce(function (prev, action) {
                     return prev.then(function () { return action(fixture); }).catch(function (err) { return fail(err); });
                 }, done);
-            });
+            }));
         },
         verify: function () {
             var actions = [];
@@ -78,47 +76,47 @@ function forceDetectChanges(action) {
 exports.click = {
     in: function (selector) {
         return whenStable(function (fixture) {
-            var element = find(fixture.debugElement, selector);
-            element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+            var element = find(fixture, selector);
+            element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
         });
     }
 };
 exports.check = {
     in: function (selector) {
         return whenStable(function (fixture) {
-            var input = find(fixture.debugElement, selector);
+            var input = find(fixture, selector);
             input.checked = true;
-            input.dispatchEvent(new Event('change'));
+            input.dispatchEvent(new Event("change"));
         });
     }
 };
 exports.submit = {
     form: function (selector) {
         return whenStable(function (fixture) {
-            var element = find(fixture.debugElement, selector);
-            element.dispatchEvent(new Event('submit'));
+            var element = find(fixture, selector);
+            element.dispatchEvent(new Event("submit"));
         });
     }
 };
 function type(text) {
     function isContentEditable(htmlElement) {
-        return htmlElement instanceof HTMLElement && htmlElement.getAttribute('contenteditable') === "true";
+        return htmlElement instanceof HTMLElement && htmlElement.getAttribute("contenteditable") === "true";
     }
     return {
         in: function (selector) {
             return whenStable(function (fixture) {
-                var htmlElement = find(fixture.debugElement, selector);
+                var htmlElement = find(fixture, selector);
                 if (isContentEditable(htmlElement)) {
                     htmlElement.textContent = text;
-                    htmlElement.dispatchEvent(new Event('input'));
-                    htmlElement.dispatchEvent(new Event('keyup'));
-                    htmlElement.dispatchEvent(new Event('blur'));
+                    htmlElement.dispatchEvent(new Event("input"));
+                    htmlElement.dispatchEvent(new Event("keyup"));
+                    htmlElement.dispatchEvent(new Event("blur"));
                 }
                 else {
                     var input = htmlElement;
                     input.value = text;
-                    htmlElement.dispatchEvent(new Event('input'));
-                    htmlElement.dispatchEvent(new Event('keyup'));
+                    htmlElement.dispatchEvent(new Event("input"));
+                    htmlElement.dispatchEvent(new Event("keyup"));
                 }
             });
         }
@@ -132,8 +130,8 @@ function keydown(key) {
     return {
         in: function (selector) {
             return whenStable(function (fixture) {
-                var input = find(fixture.debugElement, selector);
-                input.dispatchEvent(new KeyboardEvent('keydown', { key: key, bubbles: true }));
+                var input = find(fixture, selector);
+                input.dispatchEvent(new KeyboardEvent("keydown", { key: key, bubbles: true }));
             });
         }
     };
@@ -147,15 +145,14 @@ function select(value) {
     return {
         in: function (selector) {
             return whenStable(function (fixture) {
-                var select = find(fixture.debugElement, selector);
-                var index = _.findIndex(select.options, _.matches({ value: value }));
-                select.selectedIndex = index;
-                _.filter(select.options, function (o) { return hasAnyOf([value].concat(more), o); })
-                    .forEach(function (o) { return o.selected = true; });
+                var selectElement = find(fixture, selector);
+                var index = _.findIndex(selectElement.options, _.matches({ value: value }));
+                selectElement.selectedIndex = index;
+                _.filter(selectElement.options, function (o) { return hasAnyOf([value].concat(more), o); }).forEach(function (o) { return (o.selected = true); });
                 function hasAnyOf(values, option) {
                     return _.some(values, function (v) { return option.value.indexOf(v) !== -1; });
                 }
-                select.dispatchEvent(new Event('change'));
+                selectElement.dispatchEvent(new Event("change"));
             });
         }
     };
@@ -175,49 +172,52 @@ function navigateToUrl(url) {
     }));
 }
 exports.navigateToUrl = navigateToUrl;
-function query(debugElement) {
+function query(fixture) {
     return {
         element: function (css) {
-            return find(debugElement, css);
+            return find(fixture, css);
         },
         elements: function (css) {
-            return findAll(debugElement, css);
+            return findAll(fixture, css);
         },
         textOf: function (css) {
-            return find(debugElement, css).textContent;
+            return find(fixture, css).textContent;
         },
         location: function () {
-            var location = testing_1.TestBed.get(common_1.Location);
-            return location.path();
+            var url = testing_1.TestBed.get(common_1.Location);
+            return url.path();
         }
     };
 }
-function assert(assertion) {
+function assert(assertionFn) {
     return whenStable(function (fixture) {
-        assertion(query(fixture.debugElement));
+        assertionFn(query(fixture));
     });
 }
 exports.assert = assert;
 function wait(time) {
     return function (fixture) {
-        return new Promise(function (resolve) { return setTimeout(function () {
-            return resolve();
-        }, time); });
+        return new Promise(function (resolve) {
+            return setTimeout(function () {
+                return resolve();
+            }, time);
+        });
     };
 }
 exports.wait = wait;
-function waitUntil(assertion) {
+function waitUntil(assertionFn) {
     return function (fixture) {
         return new Promise(function (resolve) { return checkCondition(resolve); });
         function checkCondition(resolve) {
             setTimeout(function () {
                 try {
-                    var result = assertion(query(fixture.debugElement));
+                    var result = assertionFn(query(fixture));
                     if (result) {
                         return resolve();
                     }
                 }
                 catch (err) {
+                    // ignore
                 }
                 return checkCondition(resolve);
             }, 50);
@@ -246,7 +246,7 @@ function assertion(valueFn) {
             return whenStable(function (fixture) { return expect(valueFn(fixture).length).toBeGreaterThan(0); });
         },
         doesNotExist: function () {
-            return whenStable(function (fixture) { return expect(valueFn(fixture).length).not.toBeGreaterThan(0); });
+            return whenStable(function (fixture) { return expect((valueFn(fixture) || []).length).not.toBeGreaterThan(0); });
         }
     };
 }
@@ -276,40 +276,61 @@ function pluralAssertion(valueFn) {
     };
 }
 function first(map) {
-    return function (selector) { return assertion(function (fixture) { return map(find(fixture.debugElement, selector)); }); };
+    return function (selector) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        return assertion(function (fixture) { return map.apply(void 0, [find(fixture, selector)].concat(args)); });
+    };
 }
 function firstWithPluralAssertion(map) {
-    return function (selector) { return pluralAssertion(function (fixture) { return map(find(fixture.debugElement, selector)); }); };
+    return function (selector) { return pluralAssertion(function (fixture) { return map(find(fixture, selector)); }); };
 }
 function all(map) {
-    return function (selector) { return pluralAssertion(function (fixture) { return findAll(fixture.debugElement, selector).map(map); }); };
+    return function (selector) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        return pluralAssertion(function (fixture) { return findAll(fixture, selector)
+            .map(function (e) { return map.apply(void 0, [e].concat(args)); })
+            .filter(function (v) { return !_.isUndefined(v); }); });
+    };
 }
 function allWithSingularAssertion(map) {
-    return function (selector) { return assertion(function (fixture) { return findAll(fixture.debugElement, selector).map(map); }); };
+    return function (selector) { return assertion(function (fixture) { return findAll(fixture, selector).map(map); }); };
 }
 function location(fixture) {
-    var location = testing_1.TestBed.get(common_1.Location);
-    return location.path();
+    var url = testing_1.TestBed.get(common_1.Location);
+    return url.path();
 }
 exports.expectThat = {
-    valuesOf: all(function (e) { return e.type === 'checkbox' ? e.checked : e.value; }),
-    valueOf: first(function (e) { return e.type === 'checkbox' ? e.checked : e.value; }),
+    attributeOf: first(function (e, attr) { return e.attributes[attr] ? e.attributes[attr].value : undefined; }),
+    attributesOf: all(function (e, attr) { return e.attributes[attr] ? e.attributes[attr].value : undefined; }),
+    cssClassesOf: firstWithPluralAssertion(function (e) { return e.classList; }),
     element: allWithSingularAssertion(_.identity),
     elements: all(_.identity),
+    location: assertion(location),
     textOf: first(function (e) { return e.textContent.trim(); }),
     textsOf: all(function (e) { return e.textContent.trim(); }),
-    cssClassesOf: firstWithPluralAssertion(function (e) { return e.classList; }),
-    location: assertion(location)
+    valueOf: first(function (e) { return (e.type === "checkbox" ? e.checked : e.value); }),
+    valuesOf: all(function (e) { return (e.type === "checkbox" ? e.checked : e.value); })
 };
-function find(debugElement, selector) {
-    var element = debugElement.query(platform_browser_1.By.css("" + selector));
+function find(fixture, selector) {
+    var compontent = fixture.nativeElement;
+    var element = compontent.querySelector(selector);
     if (element) {
-        return element.nativeElement;
+        return element;
     }
-    var debug = debugElement.nativeElement;
     throw new Error("Could not find " + selector + " element!");
 }
-function findAll(debugElement, selector) {
-    var element = debugElement.queryAll(platform_browser_1.By.css("" + selector));
-    return element.map(function (e) { return e.nativeElement; });
+function findAll(fixture, selector) {
+    var compontent = fixture.nativeElement;
+    var elements = compontent.querySelectorAll(selector);
+    var result = [];
+    for (var i = 0; i < elements.length; i++) {
+        result.push(elements.item(i));
+    }
+    return result;
 }
