@@ -314,8 +314,8 @@ exports.expectThat = {
     location: assertion(location),
     textOf: first(function (e) { return e.textContent.trim(); }),
     textsOf: all(function (e) { return e.textContent.trim(); }),
-    valueOf: first(function (e) { return (e.type === "checkbox" ? e.checked : e.value); }),
-    valuesOf: all(function (e) { return (e.type === "checkbox" ? e.checked : e.value); })
+    valueOf: first(function (e) { return ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value); }),
+    valuesOf: all(function (e) { return ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value); })
 };
 function find(fixture, selector) {
     var compontent = fixture.nativeElement;
