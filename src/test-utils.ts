@@ -37,7 +37,7 @@ function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture
   const componentInstance = fixture.componentInstance;
   _.merge(componentInstance, inputs);
   _.each(outputs, (listener, property) => {
-    const emitter = componentInstance[property + "Change"] as EventEmitter<any>;
+    const emitter = (componentInstance[property] || componentInstance[property + "Change"]) as EventEmitter<any>;
     if (emitter) {
       emitter.subscribe(listener);
     }

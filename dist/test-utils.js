@@ -35,7 +35,7 @@ function run(component, inputs, outputs) {
     var componentInstance = fixture.componentInstance;
     _.merge(componentInstance, inputs);
     _.each(outputs, function (listener, property) {
-        var emitter = componentInstance[property + "Change"];
+        var emitter = (componentInstance[property] || componentInstance[property + "Change"]);
         if (emitter) {
             emitter.subscribe(listener);
         }
