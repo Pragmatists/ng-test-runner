@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, HostListener, ViewChild } from "@angular/core";
+import { Component, EventEmitter, HostListener, Output, ViewChild } from "@angular/core";
 
 @Component({
   selector: "app-root",
@@ -13,6 +13,10 @@ export class AppComponent {
   public status = "";
   @ViewChild("nameInput")
   public nameInput;
+  @Output()
+  public emitted = new EventEmitter<string>();
+  @Output()
+  public bananaStyleChange = new EventEmitter<string>();
 
   private title = "Fancy title!";
   private label = "";
@@ -40,5 +44,10 @@ export class AppComponent {
     if (this.nameInput.nativeElement === target && key.toLowerCase() === "enter") {
       this.sayHello();
     }
+  }
+
+  public clicked() {
+    this.emitted.emit('supports simple name');
+    this.bananaStyleChange.emit('supports banana syntax');
   }
 }
