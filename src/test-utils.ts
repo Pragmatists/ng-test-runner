@@ -1,9 +1,8 @@
 import * as _ from "lodash";
 
 import { Location } from "@angular/common";
-import { DebugElement, EventEmitter, Type } from "@angular/core";
+import { EventEmitter, Type } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 
 export { http } from "./server";
@@ -364,8 +363,8 @@ export const expectThat = {
   location: assertion(location),
   textOf: first((e) => e.textContent.trim()),
   textsOf: all((e) => e.textContent.trim()),
-  valueOf: first((e: HTMLInputElement) => (e.type === "checkbox" ? e.checked : e.value)),
-  valuesOf: all((e: HTMLInputElement) => (e.type === "checkbox" ? e.checked : e.value))
+  valueOf: first((e: HTMLInputElement) => ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value)),
+  valuesOf: all((e: HTMLInputElement) => ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value))
 };
 
 function find(fixture: ComponentFixture<any>, selector: string): SearchableElement {

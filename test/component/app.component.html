@@ -1,6 +1,6 @@
 <h1 class="title"> {{title}} </h1>
 <input #nameInput class="name" [(ngModel)]="name">
-<input id="checkbox" type="checkbox" [(ngModel)]="checkboxValue"> I agree to the terms<br>
+<input id="checkbox" type="checkbox" [(ngModel)]="checkboxValue" value="Example"> I agree to the terms<br>
 <div class="greeting">{{message}}</div>
 <div id="editor" contenteditable="true">This needs to be edited!</div>
 <button id="hello" (click)="sayHello()">Say hello</button>
@@ -15,4 +15,8 @@
     <text class="label">Text in SVG</text>
   </g>
 </svg>
+<form>
+  <input id="radiobutton1" type="radio" name="gender" value="male">Male<br>
+  <input id="radiobutton2" type="radio" name="gender" value="female">Female<br>
+</form>
 <span id="clickable" (click)="clicked()"></span>

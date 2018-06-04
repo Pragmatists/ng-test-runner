@@ -89,7 +89,36 @@ describe("Manager Component", () => {
         );
 
         comp.verify(
-            expectThat.valueOf("#checkbox").isEqualTo(true)
+            expectThat.valueOf("#checkbox").isEqualTo(true),
+            expectThat.attributeOf("#checkbox", "value").isEqualTo("Example")
+        );
+    });
+
+    it("valueOf for radiobutton returns true for checked one", () => {
+        const comp = app.run(AppComponent);
+
+        comp.perform(
+            check.in("#radiobutton2")
+        );
+
+        comp.verify(
+            expectThat.valueOf("#radiobutton1").isEqualTo(false),
+            expectThat.valueOf("#radiobutton2").isEqualTo(true),
+            expectThat.valuesOf("input[type='radio']").areEqualTo([false, true])
+        );
+    });
+
+    it("attributeOf for radiobutton returns 'value'", () => {
+        const comp = app.run(AppComponent);
+
+        comp.perform(
+            check.in("#radiobutton2")
+        );
+
+        comp.verify(
+            expectThat.attributeOf("#radiobutton1", "value").isEqualTo("male"),
+            expectThat.attributeOf("#radiobutton2", "value").isEqualTo("female"),
+            expectThat.attributesOf("input[type='radio']", "value").areEqualTo(["male", "female"])
         );
     });
 
@@ -99,7 +128,7 @@ describe("Manager Component", () => {
         comp.verify(
             expectThat.textsOf("div").areEqualTo(["nothing yet", "This needs to be edited!"]),
             expectThat.cssClassesOf("div").contain("greeting"),
-            expectThat.valuesOf("input").areEqualTo(["", false]),
+            expectThat.valuesOf("input").areEqualTo(["", false, false, false]),
             expectThat.elements("h1").haveSize(1),
             expectThat.attributesOf("button", "id").areEqualTo(["hello", "goodbye"]),
             expectThat.attributesOf("button", "missing").isEmpty()
