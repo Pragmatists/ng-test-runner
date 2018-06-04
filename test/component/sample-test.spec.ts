@@ -178,29 +178,29 @@ describe("Manager Component", () => {
       );
     });
 
-    it('should emit event for standard output name', () => {
+    it("should emit event for standard output name", () => {
         let received;
         const comp = app.run(AppComponent, {}, {emitted: (v: string) => received = v});
 
         comp.perform(
-            click.in('#clickable')
+            click.in("#clickable")
         );
 
         comp.verify(
-            () => expect(received).toEqual('supports simple name')
+            () => expect(received).toEqual("supports simple name")
         );
     });
 
-    it('should emit event for banana name [( )] - aka ngModel style', () => {
+    it("should emit event for banana name [( )] - aka ngModel style", () => {
         let received;
         const comp = app.run(AppComponent, {}, {bananaStyle: (v: string) => received = v});
 
         comp.perform(
-            click.in('#clickable')
+            click.in("#clickable")
         );
 
         comp.verify(
-            () => expect(received).toEqual('supports banana syntax')
+            () => expect(received).toEqual("supports banana syntax")
         );
     });
 

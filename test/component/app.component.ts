@@ -47,7 +47,7 @@ export class AppComponent {
   }
 
   public clicked() {
-    this.emitted.emit('supports simple name');
-    this.bananaStyleChange.emit('supports banana syntax');
+    this.emitted.emit("supports simple name");
+    this.bananaStyleChange.emit("supports banana syntax");
   }
 }
