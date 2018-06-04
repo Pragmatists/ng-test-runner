@@ -91,6 +91,15 @@ export const check = {
   }
 };
 
+export const leave = {
+    from(selector: string): Action {
+        return whenStable((fixture) => {
+            const element = find(fixture, selector);
+            element.dispatchEvent(new FocusEvent("blur", {bubbles: true}));
+        });
+    }
+};
+
 export const submit = {
   form(selector: string): Action {
     return whenStable((fixture) => {

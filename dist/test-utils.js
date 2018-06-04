@@ -90,6 +90,14 @@ exports.check = {
         });
     }
 };
+exports.leave = {
+    from: function (selector) {
+        return whenStable(function (fixture) {
+            var element = find(fixture, selector);
+            element.dispatchEvent(new FocusEvent("blur", { bubbles: true }));
+        });
+    }
+};
 exports.submit = {
     form: function (selector) {
         return whenStable(function (fixture) {

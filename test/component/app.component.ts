@@ -17,6 +17,8 @@ export class AppComponent {
   public emitted = new EventEmitter<string>();
   @Output()
   public bananaStyleChange = new EventEmitter<string>();
+  @Output()
+  public capitalizedName = new EventEmitter<string>();
 
   private title = "Fancy title!";
   private label = "";
@@ -49,5 +51,9 @@ export class AppComponent {
   public clicked() {
     this.emitted.emit("supports simple name");
     this.bananaStyleChange.emit("supports banana syntax");
+  }
+
+  public onLeaveNameInput() {
+    this.capitalizedName.emit(this.name.toUpperCase());
   }
 }
