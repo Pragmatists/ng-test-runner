@@ -19,6 +19,9 @@ export declare const click: {
 export declare const check: {
     in(selector: string): Action;
 };
+export declare const blur: {
+    from(selector: string): Action;
+};
 export declare const submit: {
     form(selector: string): Action;
 };

@@ -7,6 +7,7 @@ exports.submit = test_utils_1.submit;
 exports.expectThat = test_utils_1.expectThat;
 exports.type = test_utils_1.type;
 exports.keydown = test_utils_1.keydown;
+exports.blur = test_utils_1.blur;
 exports.select = test_utils_1.select;
 exports.navigateTo = test_utils_1.navigateTo;
 exports.navigateToUrl = test_utils_1.navigateToUrl;

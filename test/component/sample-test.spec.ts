@@ -1,5 +1,5 @@
 
-import test, {App, check, click, expectThat, http, keydown, Server, submit, type} from "../../dist/index";
+import test, {App, check, click, expectThat, http, keydown, blur, Server, submit, type} from "../../dist/index";
 
 import {AppComponent} from "./app.component";
 import {AppModule} from "./app.module";
@@ -201,6 +201,20 @@ describe("Manager Component", () => {
 
         comp.verify(
             () => expect(received).toEqual("supports banana syntax")
+        );
+    });
+
+    it("after leaving name input upper case value should be emitted", () => {
+        let output;
+        const comp = app.run(AppComponent, {}, {capitalizedName: (v: string) => output = v});
+
+        comp.perform(
+            type("foo bar").in(".name"),
+            blur.from(".name")
+        );
+
+        comp.verify(
+            () => expect(output).toEqual("FOO BAR")
         );
     });
 
