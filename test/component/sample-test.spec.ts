@@ -1,5 +1,5 @@
 
-import test, {App, check, click, expectThat, http, keydown, leave, Server, submit, type} from "../../dist/index";
+import test, {App, check, click, expectThat, http, keydown, blur, Server, submit, type} from "../../dist/index";
 
 import {AppComponent} from "./app.component";
 import {AppModule} from "./app.module";
@@ -210,7 +210,7 @@ describe("Manager Component", () => {
 
         comp.perform(
             type("foo bar").in(".name"),
-            leave.from(".name")
+            blur.from(".name")
         );
 
         comp.verify(

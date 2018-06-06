@@ -90,7 +90,7 @@ exports.check = {
         });
     }
 };
-exports.leave = {
+exports.blur = {
     from: function (selector) {
         return whenStable(function (fixture) {
             var element = find(fixture, selector);

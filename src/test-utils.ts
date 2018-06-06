@@ -91,7 +91,7 @@ export const check = {
   }
 };
 
-export const leave = {
+export const blur = {
     from(selector: string): Action {
         return whenStable((fixture) => {
             const element = find(fixture, selector);

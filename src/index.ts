@@ -6,7 +6,7 @@ export {
     expectThat,
     type,
     keydown,
-    leave,
+    blur,
     select,
     navigateTo,
     navigateToUrl,
