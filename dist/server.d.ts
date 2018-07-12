@@ -13,6 +13,7 @@ export interface Req {
     header(name: string): string;
     sendJson(json: any): void;
     sendStatus(status: number, json?: any): void;
+    sendResponse(status: number, body: string, headers: any): void;
 }
 export declare function http(config?: {
     autoRespond: boolean;

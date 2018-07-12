@@ -46,11 +46,14 @@ function wrap(req) {
         header: function (name) {
             return req.requestHeaders[name];
         },
-        sendJson: function (json) {
-            req.respond(200, { "Content-Type": "application/json" }, JSON.stringify(json));
+        sendJson: function (json, headers) {
+            req.respond(200, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json));
         },
-        sendStatus: function (status, json) {
-            req.respond(status, { "Content-Type": "application/json" }, JSON.stringify(json || {}));
+        sendStatus: function (status, json, headers) {
+            req.respond(status, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json || {}));
+        },
+        sendResponse: function (status, body, headers) {
+            req.respond(status, headers, body);
         }
     };
 }

@@ -11,6 +11,7 @@ export class AppComponent {
   public message = "nothing yet";
   public checkboxValue = false;
   public status = "";
+  public token;
   @ViewChild("nameInput")
   public nameInput;
   @Output()
@@ -34,7 +35,10 @@ export class AppComponent {
   }
 
   public sayGoodbye() {
-    this.http.post<any>("/goodbye", {}).subscribe(({ message }) => (this.message = message));
+    this.http.post<any>("/goodbye", {}, {observe: "response"}).subscribe((resp) => {
+        this.message = resp.body.message;
+        this.token = resp.headers.get("token");
+    });
   }
 
   public update() {
