@@ -1,5 +1,4 @@
-
-import test, {App, check, click, expectThat, http, keydown, blur, Server, submit, type} from "../../dist/index";
+import test, {App, blur, check, click, expectThat, http, keydown, Server, submit, type} from "../../dist/index";
 
 import {AppComponent} from "./app.component";
 import {AppModule} from "./app.module";
@@ -58,6 +57,20 @@ describe("Manager Component", () => {
 
         comp.verify(
             expectThat.textOf(".greeting").isEqualTo("Goodbye Jane!")
+        );
+    });
+
+    it("goodbye server token", () => {
+        const comp = app.run(AppComponent);
+        server.post("/goodbye", (req) =>
+            req.sendResponse(200, JSON.stringify({message: "Goodbye Jane!"}), { token: "someToken" }));
+
+        comp.perform(
+            click.in("button.goodbye")
+        );
+
+        comp.verify(
+            expectThat.textOf("#token").isEqualTo("someToken")
         );
     });
 

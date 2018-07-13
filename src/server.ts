@@ -19,6 +19,7 @@ export interface Req {
   header(name: string): string;
   sendJson(json: any): void;
   sendStatus(status: number, json?: any): void;
+  sendResponse(status: number, body: string, headers: any): void;
 }
 
 export function http(config = { autoRespond: true, respondImmediately: true }): Server {
@@ -67,11 +68,14 @@ function wrap(req: SinonFakeXMLHttpRequest): Req {
     header(name) {
       return req.requestHeaders[name];
     },
-    sendJson(json) {
-      req.respond(200, { "Content-Type": "application/json" }, JSON.stringify(json));
+    sendJson(json, headers?) {
+      req.respond(200, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json));
     },
-    sendStatus(status, json) {
-      req.respond(status, { "Content-Type": "application/json" }, JSON.stringify(json || {}));
+    sendStatus(status, json, headers?) {
+      req.respond(status, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json || {}));
+    },
+    sendResponse(status, body, headers?) {
+      req.respond(status, headers, body);
     }
   };
 }
