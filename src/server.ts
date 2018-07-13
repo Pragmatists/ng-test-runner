@@ -17,8 +17,8 @@ export interface Req {
   body(): string;
   query(): any;
   header(name: string): string;
-  sendJson(json: any): void;
-  sendStatus(status: number, json?: any): void;
+  sendJson(json: any, headers?: any): void;
+  sendStatus(status: number, json?: any, headers?: any): void;
   sendResponse(status: number, body: string, headers: any): void;
 }
 
