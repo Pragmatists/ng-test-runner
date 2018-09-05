@@ -21,9 +21,8 @@ function http(config) {
     return that;
     function method(type) {
         return function (url, handler) {
-            server.respondWith(type, url, function (req) {
-                handler(wrap(req));
-            });
+            var fn = function (req, args) { return handler.apply(void 0, [wrap(req)].concat(args)); };
+            server.respondWith(type, url, fn);
             return that;
         };
     }

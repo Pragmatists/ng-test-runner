@@ -2,7 +2,7 @@ import * as _ from "lodash";
 import * as sinon from "sinon";
 import { SinonFakeXMLHttpRequest } from "sinon";
 
-export type HttpMethod = (url: string | RegExp, handler: (r: Req) => void) => void;
+export type HttpMethod = (url: string | RegExp, handler: (r: Req, ...args: any[]) => void) => void;
 
 export interface Server {
   post: HttpMethod;
@@ -43,9 +43,8 @@ export function http(config = { autoRespond: true, respondImmediately: true }): 
 
   function method(type: string): HttpMethod {
     return (url, handler) => {
-      server.respondWith(type, url as any, (req) => {
-        handler(wrap(req));
-      });
+      const fn = (req, args) => handler(wrap(req), ...args);
+      server.respondWith(type, url as any, fn as any);
       return that;
     };
   }

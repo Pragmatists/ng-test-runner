@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, EventEmitter, HostListener, Output, ViewChild } from "@angular/core";
+import { noop } from "lodash";
 
 @Component({
   selector: "app-root",
@@ -59,5 +60,9 @@ export class AppComponent {
 
   public onLeaveNameInput() {
     this.capitalizedName.emit(this.name.toUpperCase());
+  }
+
+  public sendGet() {
+      this.http.get("/api/test/1").subscribe(noop, noop);
   }
 }
