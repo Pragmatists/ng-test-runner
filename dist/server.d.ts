@@ -1,4 +1,4 @@
-export declare type HttpMethod = (url: string | RegExp, handler: (r: Req) => void) => void;
+export declare type HttpMethod = (url: string | RegExp, handler: (r: Req, ...args: any[]) => void) => void;
 export interface Server {
     post: HttpMethod;
     get: HttpMethod;

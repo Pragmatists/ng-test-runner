@@ -231,4 +231,20 @@ describe("Manager Component", () => {
         );
     });
 
+    it('should pass request params to handler', (done) => {
+        server.get(/api\/test\/(\d+)/, (req, id) => {
+            expect(id).toEqual("1");
+            req.sendStatus(200);
+        });
+        const comp = app.run(AppComponent);
+
+        comp.perform(
+            click.in("#get")
+        );
+
+        comp.verify(
+            done
+        );
+    });
+
 });
