@@ -1,11 +1,14 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
@@ -35,7 +38,7 @@ function run(component, inputs, outputs) {
     var componentInstance = fixture.componentInstance;
     _.merge(componentInstance, inputs);
     _.each(outputs, function (listener, property) {
-        var emitter = (componentInstance[property] || componentInstance[property + "Change"]);
+        var emitter = (componentInstance[property] || componentInstance[property + 'Change']);
         if (emitter) {
             emitter.subscribe(listener);
         }
@@ -77,7 +80,7 @@ exports.click = {
     in: function (selector) {
         return whenStable(function (fixture) {
             var element = find(fixture, selector);
-            element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+            element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
         });
     }
 };
@@ -86,7 +89,7 @@ exports.check = {
         return whenStable(function (fixture) {
             var input = find(fixture, selector);
             input.checked = true;
-            input.dispatchEvent(new Event("change"));
+            input.dispatchEvent(new Event('change'));
         });
     }
 };
@@ -94,7 +97,7 @@ exports.blur = {
     from: function (selector) {
         return whenStable(function (fixture) {
             var element = find(fixture, selector);
-            element.dispatchEvent(new FocusEvent("blur", { bubbles: true }));
+            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
         });
     }
 };
@@ -102,13 +105,13 @@ exports.submit = {
     form: function (selector) {
         return whenStable(function (fixture) {
             var element = find(fixture, selector);
-            element.dispatchEvent(new Event("submit"));
+            element.dispatchEvent(new Event('submit'));
         });
     }
 };
 function type(text) {
     function isContentEditable(htmlElement) {
-        return htmlElement instanceof HTMLElement && htmlElement.getAttribute("contenteditable") === "true";
+        return htmlElement instanceof HTMLElement && htmlElement.getAttribute('contenteditable') === 'true';
     }
     return {
         in: function (selector) {
@@ -116,15 +119,15 @@ function type(text) {
                 var htmlElement = find(fixture, selector);
                 if (isContentEditable(htmlElement)) {
                     htmlElement.textContent = text;
-                    htmlElement.dispatchEvent(new Event("input"));
-                    htmlElement.dispatchEvent(new Event("keyup"));
-                    htmlElement.dispatchEvent(new Event("blur"));
+                    htmlElement.dispatchEvent(new Event('input'));
+                    htmlElement.dispatchEvent(new Event('keyup'));
+                    htmlElement.dispatchEvent(new Event('blur'));
                 }
                 else {
                     var input = htmlElement;
                     input.value = text;
-                    htmlElement.dispatchEvent(new Event("input"));
-                    htmlElement.dispatchEvent(new Event("keyup"));
+                    htmlElement.dispatchEvent(new Event('input'));
+                    htmlElement.dispatchEvent(new Event('keyup'));
                 }
             });
         }
@@ -139,7 +142,7 @@ function keydown(key) {
         in: function (selector) {
             return whenStable(function (fixture) {
                 var input = find(fixture, selector);
-                input.dispatchEvent(new KeyboardEvent("keydown", { key: key, bubbles: true }));
+                input.dispatchEvent(new KeyboardEvent('keydown', { key: key, bubbles: true }));
             });
         }
     };
@@ -160,7 +163,7 @@ function select(value) {
                 function hasAnyOf(values, option) {
                     return _.some(values, function (v) { return option.value.indexOf(v) !== -1; });
                 }
-                selectElement.dispatchEvent(new Event("change"));
+                selectElement.dispatchEvent(new Event('change'));
             });
         }
     };
@@ -322,8 +325,8 @@ exports.expectThat = {
     location: assertion(location),
     textOf: first(function (e) { return e.textContent.trim(); }),
     textsOf: all(function (e) { return e.textContent.trim(); }),
-    valueOf: first(function (e) { return ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value); }),
-    valuesOf: all(function (e) { return ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value); })
+    valueOf: first(function (e) { return ((e.type === 'checkbox' || e.type === 'radio') ? e.checked : e.value); }),
+    valuesOf: all(function (e) { return ((e.type === 'checkbox' || e.type === 'radio') ? e.checked : e.value); })
 };
 function find(fixture, selector) {
     var compontent = fixture.nativeElement;

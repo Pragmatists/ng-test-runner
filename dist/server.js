@@ -7,10 +7,10 @@ function http(config) {
     var server = sinon.fakeServer.create();
     _.merge(server, config);
     var that = {
-        delete: method("DELETE"),
-        get: method("GET"),
-        post: method("POST"),
-        put: method("PUT"),
+        delete: method('DELETE'),
+        get: method('GET'),
+        post: method('POST'),
+        put: method('PUT'),
         respond: function () {
             server.respond();
         },
@@ -34,10 +34,10 @@ function wrap(req) {
             return JSON.parse(req.requestBody);
         },
         query: function () {
-            var query = req.url.split("#")[0].split("?")[1];
+            var query = req.url.split('#')[0].split('?')[1];
             return _(query)
-                .split("&")
-                .map(_.partial(_.split, _, "=", 2))
+                .split('&')
+                .map(_.partial(_.split, _, '=', 2))
                 .fromPairs()
                 .mapValues(decodeURIComponent)
                 .value();
@@ -46,10 +46,10 @@ function wrap(req) {
             return req.requestHeaders[name];
         },
         sendJson: function (json, headers) {
-            req.respond(200, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json));
+            req.respond(200, _.assign({ 'Content-Type': 'application/json' }, headers), JSON.stringify(json));
         },
         sendStatus: function (status, json, headers) {
-            req.respond(status, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json || {}));
+            req.respond(status, _.assign({ 'Content-Type': 'application/json' }, headers), JSON.stringify(json || {}));
         },
         sendResponse: function (status, body, headers) {
             req.respond(status, headers, body);

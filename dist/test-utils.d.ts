@@ -1,6 +1,6 @@
-import { Type } from "@angular/core";
-import { ComponentFixture } from "@angular/core/testing";
-export { http } from "./server";
+import { Type } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing';
+export { http } from './server';
 export declare type Action = (fixture: ComponentFixture<any>) => Promise<any> | any;
 export interface Fixture {
     perform(...actions: Action[]): Promise<any> | void;
@@ -10,9 +10,10 @@ export interface App {
     run(component: Type<any>, inputs?: any, outputs?: any): Fixture;
 }
 export default function app(...module: any[]): {
-    run: (component: Type<any>, inputs?: any, outputs?: any) => Fixture;
+    run: typeof run;
 };
 export declare type SearchableElement = HTMLElement | SVGElement;
+declare function run(component: Type<any>, inputs?: any, outputs?: any): Fixture;
 export declare const click: {
     in(selector: string): Action;
 };

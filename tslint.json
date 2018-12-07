@@ -1,13 +1,17 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "interface-name": false,
+    "trailing-comma": false,
+    "quotemark": [
+      true,
+      "single"
     ],
-    "jsRules": {
-    },
-    "rules": {
-      "interface-name": false,
-      "trailing-comma": false
-    },
-    "rulesDirectory": []
+    "ordered-imports": false,
+    "only-arrow-functions": false,
+    "no-empty": false
+  }
 }
