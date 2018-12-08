@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-
 import { Location } from '@angular/common';
 import { EventEmitter, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -30,8 +29,6 @@ export default function app(...module: any[]) {
 
 export type SearchableElement = HTMLElement | SVGElement;
 
-const destroy = whenStable((fixture) => fixture.destroy());
-
 function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture {
   const fixture = TestBed.createComponent(component);
   const componentInstance = fixture.componentInstance;
@@ -49,7 +46,7 @@ function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture
   return {
     perform(...actions: Action[]) {
       return (done = fixture.ngZone.run(() => {
-        return [...actions /*, destroy*/].reduce((prev, action) => {
+        return [...actions].reduce((prev, action) => {
           return prev.then(() => action(fixture)).catch((err) => fail(err));
         }, done);
       }));
@@ -135,16 +132,12 @@ export function type(text: string) {
   };
 }
 
-const codes = {
-  ESC: 27
-} as { [key: string]: number };
-
 export function keydown(key: string) {
   return {
     in(selector: string): Action {
       return whenStable((fixture) => {
         const input = find(fixture, selector);
-        input.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true } as any));
+        input.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
       });
     }
   };
@@ -226,11 +219,9 @@ export function assert(assertionFn: (query: Query) => void): Action {
 }
 
 export function wait(time: number): Action {
-  return (fixture) => {
+  return () => {
     return new Promise((resolve) =>
-      setTimeout(() => {
-        return resolve();
-      }, time)
+      setTimeout(() => resolve(), time)
     );
   };
 }
@@ -243,6 +234,7 @@ export function waitUntil(assertionFn: (query: Query) => void): Action {
       setTimeout(() => {
         try {
           const result = assertionFn(query(fixture));
+          // TODO: check if assertionFn can return anything
           if (result as any) {
             return resolve();
           }
@@ -377,8 +369,8 @@ export const expectThat = {
 };
 
 function find(fixture: ComponentFixture<any>, selector: string): SearchableElement {
-  const compontent = fixture.nativeElement as SearchableElement;
-  const element = compontent.querySelector(selector) as SearchableElement;
+  const component = fixture.nativeElement as SearchableElement;
+  const element = component.querySelector<SearchableElement>(selector);
   if (element) {
     return element;
   }
@@ -386,8 +378,8 @@ function find(fixture: ComponentFixture<any>, selector: string): SearchableEleme
 }
 
 function findAll(fixture: ComponentFixture<any>, selector: string): SearchableElement[] {
-  const compontent = fixture.nativeElement as SearchableElement;
-  const elements = compontent.querySelectorAll(selector);
+  const component = fixture.nativeElement as SearchableElement;
+  const elements = component.querySelectorAll(selector);
 
   const result = [];
   for (let i = 0; i < elements.length; i++) {
