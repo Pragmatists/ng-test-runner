@@ -1,11 +1,10 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
+import { Location } from '@angular/common';
+import { EventEmitter, Type } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
-import { Location } from "@angular/common";
-import { EventEmitter, Type } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Router } from "@angular/router";
-
-export { http } from "./server";
+export { http } from './server';
 
 export type Action = (fixture: ComponentFixture<any>) => Promise<any> | any;
 
@@ -30,14 +29,12 @@ export default function app(...module: any[]) {
 
 export type SearchableElement = HTMLElement | SVGElement;
 
-const destroy = whenStable((fixture) => fixture.destroy());
-
 function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture {
   const fixture = TestBed.createComponent(component);
   const componentInstance = fixture.componentInstance;
   _.merge(componentInstance, inputs);
   _.each(outputs, (listener, property) => {
-    const emitter = (componentInstance[property] || componentInstance[property + "Change"]) as EventEmitter<any>;
+    const emitter = (componentInstance[property] || componentInstance[property + 'Change']) as EventEmitter<any>;
     if (emitter) {
       emitter.subscribe(listener);
     }
@@ -49,7 +46,7 @@ function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture
   return {
     perform(...actions: Action[]) {
       return (done = fixture.ngZone.run(() => {
-        return [...actions /*, destroy*/].reduce((prev, action) => {
+        return [...actions].reduce((prev, action) => {
           return prev.then(() => action(fixture)).catch((err) => fail(err));
         }, done);
       }));
@@ -76,7 +73,7 @@ export const click = {
   in(selector: string): Action {
     return whenStable((fixture) => {
       const element = find(fixture, selector);
-      element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
   }
 };
@@ -86,7 +83,7 @@ export const check = {
     return whenStable((fixture) => {
       const input = find(fixture, selector) as HTMLInputElement;
       input.checked = true;
-      input.dispatchEvent(new Event("change"));
+      input.dispatchEvent(new Event('change'));
     });
   }
 };
@@ -95,7 +92,7 @@ export const blur = {
     from(selector: string): Action {
         return whenStable((fixture) => {
             const element = find(fixture, selector);
-            element.dispatchEvent(new FocusEvent("blur", {bubbles: true}));
+            element.dispatchEvent(new FocusEvent('blur', {bubbles: true}));
         });
     }
 };
@@ -104,14 +101,14 @@ export const submit = {
   form(selector: string): Action {
     return whenStable((fixture) => {
       const element = find(fixture, selector) as HTMLInputElement;
-      element.dispatchEvent(new Event("submit"));
+      element.dispatchEvent(new Event('submit'));
     });
   }
 };
 
 export function type(text: string) {
   function isContentEditable(htmlElement: SearchableElement) {
-    return htmlElement instanceof HTMLElement && htmlElement.getAttribute("contenteditable") === "true";
+    return htmlElement instanceof HTMLElement && htmlElement.getAttribute('contenteditable') === 'true';
   }
 
   return {
@@ -121,30 +118,26 @@ export function type(text: string) {
 
         if (isContentEditable(htmlElement)) {
           htmlElement.textContent = text;
-          htmlElement.dispatchEvent(new Event("input"));
-          htmlElement.dispatchEvent(new Event("keyup"));
-          htmlElement.dispatchEvent(new Event("blur"));
+          htmlElement.dispatchEvent(new Event('input'));
+          htmlElement.dispatchEvent(new Event('keyup'));
+          htmlElement.dispatchEvent(new Event('blur'));
         } else {
           const input = htmlElement as HTMLInputElement;
           input.value = text;
-          htmlElement.dispatchEvent(new Event("input"));
-          htmlElement.dispatchEvent(new Event("keyup"));
+          htmlElement.dispatchEvent(new Event('input'));
+          htmlElement.dispatchEvent(new Event('keyup'));
         }
       });
     }
   };
 }
 
-const codes = {
-  ESC: 27
-} as { [key: string]: number };
-
 export function keydown(key: string) {
   return {
     in(selector: string): Action {
       return whenStable((fixture) => {
         const input = find(fixture, selector);
-        input.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true } as any));
+        input.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
       });
     }
   };
@@ -167,7 +160,7 @@ export function select(value: string, ...more: string[]) {
           return _.some(values, (v: string) => option.value.indexOf(v) !== -1);
         }
 
-        selectElement.dispatchEvent(new Event("change"));
+        selectElement.dispatchEvent(new Event('change'));
       });
     }
   };
@@ -226,11 +219,9 @@ export function assert(assertionFn: (query: Query) => void): Action {
 }
 
 export function wait(time: number): Action {
-  return (fixture) => {
+  return () => {
     return new Promise((resolve) =>
-      setTimeout(() => {
-        return resolve();
-      }, time)
+      setTimeout(() => resolve(), time)
     );
   };
 }
@@ -243,7 +234,8 @@ export function waitUntil(assertionFn: (query: Query) => void): Action {
       setTimeout(() => {
         try {
           const result = assertionFn(query(fixture));
-          if (result) {
+          // TODO: check if assertionFn can return anything
+          if (result as any) {
             return resolve();
           }
         } catch (err) {
@@ -372,13 +364,13 @@ export const expectThat = {
   location: assertion(location),
   textOf: first((e) => e.textContent.trim()),
   textsOf: all((e) => e.textContent.trim()),
-  valueOf: first((e: HTMLInputElement) => ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value)),
-  valuesOf: all((e: HTMLInputElement) => ((e.type === "checkbox" || e.type === "radio") ? e.checked : e.value))
+  valueOf: first((e: HTMLInputElement) => ((e.type === 'checkbox' || e.type === 'radio') ? e.checked : e.value)),
+  valuesOf: all((e: HTMLInputElement) => ((e.type === 'checkbox' || e.type === 'radio') ? e.checked : e.value))
 };
 
 function find(fixture: ComponentFixture<any>, selector: string): SearchableElement {
-  const compontent = fixture.nativeElement as SearchableElement;
-  const element = compontent.querySelector(selector) as SearchableElement;
+  const component = fixture.nativeElement as SearchableElement;
+  const element = component.querySelector<SearchableElement>(selector);
   if (element) {
     return element;
   }
@@ -386,8 +378,8 @@ function find(fixture: ComponentFixture<any>, selector: string): SearchableEleme
 }
 
 function findAll(fixture: ComponentFixture<any>, selector: string): SearchableElement[] {
-  const compontent = fixture.nativeElement as SearchableElement;
-  const elements = compontent.querySelectorAll(selector);
+  const component = fixture.nativeElement as SearchableElement;
+  const elements = component.querySelectorAll(selector);
 
   const result = [];
   for (let i = 0; i < elements.length; i++) {

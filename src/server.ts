@@ -1,6 +1,6 @@
-import * as _ from "lodash";
-import * as sinon from "sinon";
-import { SinonFakeXMLHttpRequest } from "sinon";
+import * as _ from 'lodash';
+import * as sinon from 'sinon';
+import { SinonFakeXMLHttpRequest } from 'sinon';
 
 export type HttpMethod = (url: string | RegExp, handler: (r: Req, ...args: any[]) => void) => void;
 
@@ -27,10 +27,10 @@ export function http(config = { autoRespond: true, respondImmediately: true }): 
   _.merge(server, config);
 
   const that = {
-    delete: method("DELETE"),
-    get: method("GET"),
-    post: method("POST"),
-    put: method("PUT"),
+    delete: method('DELETE'),
+    get: method('GET'),
+    post: method('POST'),
+    put: method('PUT'),
     respond() {
       server.respond();
     },
@@ -56,10 +56,10 @@ function wrap(req: SinonFakeXMLHttpRequest): Req {
       return JSON.parse(req.requestBody);
     },
     query() {
-      const query = req.url.split("#")[0].split("?")[1];
+      const query = req.url.split('#')[0].split('?')[1];
       return _(query)
-        .split("&")
-        .map(_.partial(_.split, _, "=", 2))
+        .split('&')
+        .map(_.partial(_.split, _, '=', 2))
         .fromPairs()
         .mapValues(decodeURIComponent)
         .value();
@@ -68,10 +68,10 @@ function wrap(req: SinonFakeXMLHttpRequest): Req {
       return req.requestHeaders[name];
     },
     sendJson(json, headers?) {
-      req.respond(200, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json));
+      req.respond(200, _.assign({ 'Content-Type': 'application/json' }, headers), JSON.stringify(json));
     },
     sendStatus(status, json, headers?) {
-      req.respond(status, _.assign({ "Content-Type": "application/json" }, headers), JSON.stringify(json || {}));
+      req.respond(status, _.assign({ 'Content-Type': 'application/json' }, headers), JSON.stringify(json || {}));
     },
     sendResponse(status, body, headers?) {
       req.respond(status, headers, body);
