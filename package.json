@@ -6,7 +6,7 @@
   "types": "dist/index",
   "scripts": {
     "build": "tsc",
-    "test": "ng test --watch=false --browsers Chrome",
+    "test": "ng test --watch=false",
     "lint": "tslint \"src/**\""
   },
   "repository": {
@@ -26,7 +26,6 @@
   "homepage": "https://github.com/Pragmatists/ng-test-runner#readme",
   "dependencies": {
     "lodash": "^4.17.11",
-    "protractor": "^5.4.1",
     "sinon": "^5.1.1"
   },
   "devDependencies": {
