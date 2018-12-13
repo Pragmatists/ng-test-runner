@@ -1,4 +1,4 @@
-import test, {App, blur, check, click, expectThat, http, keydown, Server, submit, type} from '../../dist/index';
+import test, {App, blur, check, click, expectThat, http, keydown, Server, submit, type} from '../../src/index';
 
 import {AppComponent} from './app.component';
 import {AppModule} from './app.module';

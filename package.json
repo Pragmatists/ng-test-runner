@@ -1,12 +1,13 @@
 {
   "name": "ng-test-runner",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
     "build": "tsc",
-    "test": "ng test --watch=false --browsers Chrome",
+    "build:full": "npm run lint && npm run test && npm run build",
+    "test": "ng test --watch=false",
     "lint": "tslint \"src/**\""
   },
   "repository": {
@@ -26,7 +27,6 @@
   "homepage": "https://github.com/Pragmatists/ng-test-runner#readme",
   "dependencies": {
     "lodash": "^4.17.11",
-    "protractor": "^5.4.1",
     "sinon": "^5.1.1"
   },
   "devDependencies": {
