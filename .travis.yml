@@ -1,7 +1,16 @@
 language: node_js
 node_js:
-  - '10'
-
+- 10
 cache:
   directories:
-    - 'node_modules'
+  - node_modules
+deploy:
+  provider: npm
+  email: hubert.legec@gmail.com
+  api_key:
+    secure: 2ahTVjLJkdjqGlC3t68LhqDNSa9WRGFsMGhidmSefQBw26pVW89zok401kNVVXI5lYgWes3oqPaO95/0aZ4vbAiT20QyQpu7or9/PtpY4lcW3mpeWu2iTrRu9j9aijx1FJEnivGdhc/RmbytoH0k2pFlh9t/Tkydioq9RHcoYvwzKPaIFxn3buMuvYNO3tI2KpxByokHlq3JYhT/1keiAQ4jkFgjw05uLEHcQcIg3ybM9EsnAVhF1v9R3Ca6nWo3uLct2msRjSabXwPmQi5HkxvwwX+cgBKK+DSYwJvioD82YpMv4FZiktRbju6n8+hvEobBdhUbJdXti4F9ZgYw+a49Zai6Bvmib6NRjEreZp1wEVhFec/DQxi5tHBIMajGAQptKYgF00weP0+zx6x1nkLSwUU3RgYWLXhQEfRQqioDA/G1I+jautSJJifLVwwIPdxZLmFix5UPQLcR5YX7CPXjn1j2xqFD4Fv+LhMy/AiPykR2aBTLeoLwIuky8oTUiu8cSQtLB88pIOd3GksW3twjsX46HEEsVbdhvFx2tPfDYedv6IjqADVvzIyE96Dr2+A3Pzcd/Cq1cECP1JPnEcZOlnoeGusLNUC2ZtFEGe1oWpid/GNp8yYKgLvWjLZ8A8DgTsfD95gUct9m04TgY9/x1vsKKAfRhgCGxk5BX4U=
+  on:
+    tags: true
+    branch: master
+    repo: Pragmatists/ng-test-runner
+  skip_cleanup: true

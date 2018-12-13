@@ -1,0 +1,10 @@
+src/
+test/
+tsconfig.json
+tslint.json
+karma.conf.js
+.travis.yml
+.gitignore
+.idea/
+*.iml
+.vscode/
