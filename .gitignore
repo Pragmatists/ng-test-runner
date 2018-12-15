@@ -4,3 +4,4 @@
 *.iml
 *.tgz
 /dist
+/out-tsc

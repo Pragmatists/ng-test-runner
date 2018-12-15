@@ -2,6 +2,7 @@ import test, {App, blur, check, click, expectThat, http, keydown, Server, submit
 
 import {AppComponent} from './app.component';
 import {AppModule} from './app.module';
+import {async} from '@angular/core/testing';
 
 describe('Manager Component', () => {
 
@@ -13,15 +14,15 @@ describe('Manager Component', () => {
         server = http();
     });
 
-    it('initial value', () => {
+    it('initial value', async(() => {
         const comp = app.run(AppComponent);
 
         comp.verify(
             expectThat.textOf('.title').isEqualTo('Fancy title!')
         );
-    });
+    }));
 
-    it('greets person after button clicked', () => {
+    it('greets person after button clicked', async(() => {
         const comp = app.run(AppComponent);
 
         comp.perform(
@@ -32,9 +33,9 @@ describe('Manager Component', () => {
         comp.verify(
             expectThat.textOf('.greeting').isEqualTo('Hello Jane!')
         );
-    });
+    }));
 
-    it('greets person after enter pressed', () => {
+    it('greets person after enter pressed', async(() => {
         const comp = app.run(AppComponent);
 
         comp.perform(
@@ -45,9 +46,9 @@ describe('Manager Component', () => {
         comp.verify(
             expectThat.textOf('.greeting').isEqualTo('Hello John!')
         );
-    });
+    }));
 
-    it('goodbye server response', () => {
+    it('goodbye server response', async(() => {
         const comp = app.run(AppComponent);
         server.post('/goodbye', (req) => req.sendJson({message: 'Goodbye Jane!'}));
 
@@ -58,9 +59,9 @@ describe('Manager Component', () => {
         comp.verify(
             expectThat.textOf('.greeting').isEqualTo('Goodbye Jane!')
         );
-    });
+    }));
 
-    it('goodbye server token', () => {
+    it('goodbye server token', async(() => {
         const comp = app.run(AppComponent);
         server.post('/goodbye', (req) =>
             req.sendResponse(200, JSON.stringify({message: 'Goodbye Jane!'}), { token: 'someToken' }));
@@ -72,9 +73,9 @@ describe('Manager Component', () => {
         comp.verify(
             expectThat.textOf('#token').isEqualTo('someToken')
         );
-    });
+    }));
 
-    it('has editable content', () => {
+    it('has editable content', async(() => {
         const comp = app.run(AppComponent);
 
         comp.perform(
@@ -84,17 +85,17 @@ describe('Manager Component', () => {
         comp.verify(
             expectThat.textOf('#editor').isEqualTo('new content')
         );
-    });
+    }));
 
-    it('initially checkbox is not checked', () => {
+    it('initially checkbox is not checked', async(() => {
         const comp = app.run(AppComponent);
 
         comp.verify(
             expectThat.valueOf('#checkbox').isEqualTo(false)
         );
-    });
+    }));
 
-    it('check checkbox', () => {
+    it('check checkbox', async(() => {
         const comp = app.run(AppComponent);
 
         comp.perform(
@@ -105,9 +106,9 @@ describe('Manager Component', () => {
             expectThat.valueOf('#checkbox').isEqualTo(true),
             expectThat.attributeOf('#checkbox', 'value').isEqualTo('Example')
         );
-    });
+    }));
 
-    it('valueOf for radiobutton returns true for checked one', () => {
+    it('valueOf for radiobutton returns true for checked one', async(() => {
         const comp = app.run(AppComponent);
 
         comp.perform(
@@ -119,9 +120,9 @@ describe('Manager Component', () => {
             expectThat.valueOf('#radiobutton2').isEqualTo(true),
             expectThat.valuesOf('input[type=\'radio\']').areEqualTo([false, true])
         );
-    });
+    }));
 
-    it('attributeOf for radiobutton returns \'value\'', () => {
+    it('attributeOf for radiobutton returns \'value\'', async(() => {
         const comp = app.run(AppComponent);
 
         comp.perform(
@@ -133,9 +134,9 @@ describe('Manager Component', () => {
             expectThat.attributeOf('#radiobutton2', 'value').isEqualTo('female'),
             expectThat.attributesOf('input[type=\'radio\']', 'value').areEqualTo(['male', 'female'])
         );
-    });
+    }));
 
-    it('allows to verify with plural syntax', () => {
+    it('allows to verify with plural syntax', async(() => {
         const comp = app.run(AppComponent);
 
         comp.verify(
@@ -146,18 +147,18 @@ describe('Manager Component', () => {
             expectThat.attributesOf('button', 'id').areEqualTo(['hello', 'goodbye']),
             expectThat.attributesOf('button', 'missing').isEmpty()
         );
-    });
+    }));
 
-    it('check if element exists and doesNotExist', () => {
+    it('check if element exists and doesNotExist', async(() => {
         const comp = app.run(AppComponent);
 
         comp.verify(
             expectThat.element('h1').exists(),
             expectThat.element('h2').doesNotExist()
         );
-    });
+    }));
 
-    it('submit form to update status', () => {
+    it('submit form to update status', async(() => {
         const comp = app.run(AppComponent);
         server.put('/update', (req) => req.sendJson({message: 'Updated!'}));
 
@@ -168,9 +169,9 @@ describe('Manager Component', () => {
         comp.verify(
             expectThat.textOf('#status').isEqualTo('Updated!')
         );
-    });
+    }));
 
-    it('check attribute value of an element', () => {
+    it('check attribute value of an element', async(() => {
 
       const comp = app.run(AppComponent);
 
@@ -178,9 +179,9 @@ describe('Manager Component', () => {
           expectThat.attributeOf('#editor', 'contenteditable').isEqualTo('true'),
           expectThat.attributeOf('#editor', 'missing').doesNotExist()
       );
-    });
+    }));
 
-    it('check text & attributes of svg elements', () => {
+    it('check text & attributes of svg elements', async(() => {
 
       const comp = app.run(AppComponent);
 
@@ -189,9 +190,9 @@ describe('Manager Component', () => {
           expectThat.textOf('text.label').isEqualTo('Text in SVG'),
           expectThat.attributesOf('rect', 'class').areEqualTo(['box', 'rectangle'])
       );
-    });
+    }));
 
-    it('should emit event for standard output name', () => {
+    it('should emit event for standard output name', async(() => {
         let received;
         const comp = app.run(AppComponent, {}, {emitted: (v: string) => received = v});
 
@@ -202,9 +203,9 @@ describe('Manager Component', () => {
         comp.verify(
             () => expect(received).toEqual('supports simple name')
         );
-    });
+    }));
 
-    it('should emit event for banana name [( )] - aka ngModel style', () => {
+    it('should emit event for banana name [( )] - aka ngModel style', async(() => {
         let received;
         const comp = app.run(AppComponent, {}, {bananaStyle: (v: string) => received = v});
 
@@ -215,9 +216,9 @@ describe('Manager Component', () => {
         comp.verify(
             () => expect(received).toEqual('supports banana syntax')
         );
-    });
+    }));
 
-    it('after leaving name input upper case value should be emitted', () => {
+    it('after leaving name input upper case value should be emitted', async(() => {
         let output;
         const comp = app.run(AppComponent, {}, {capitalizedName: (v: string) => output = v});
 
@@ -229,11 +230,12 @@ describe('Manager Component', () => {
         comp.verify(
             () => expect(output).toEqual('FOO BAR')
         );
-    });
+    }));
 
-    it('should pass request params to handler', (done) => {
+    it('should pass request params to handler', async((done) => {
+        let receivedId;
         server.get(/api\/test\/(\d+)/, (req, id) => {
-            expect(id).toEqual('1');
+            receivedId = id;
             req.sendStatus(200);
         });
         const comp = app.run(AppComponent);
@@ -243,8 +245,8 @@ describe('Manager Component', () => {
         );
 
         comp.verify(
-            done
+            () => expect(receivedId).toEqual('1')
         );
-    });
+    }));
 
 });
