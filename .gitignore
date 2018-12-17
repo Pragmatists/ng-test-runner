@@ -5,3 +5,4 @@
 *.tgz
 /dist
 /out-tsc
+/coverage
