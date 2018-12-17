@@ -1,6 +1,7 @@
 # ng-test-runner
 [![Build Status](https://travis-ci.org/Pragmatists/ng-test-runner.svg?branch=master)](https://travis-ci.org/Pragmatists/ng-test-runner)
 [![npm version](https://badge.fury.io/js/ng-test-runner.svg)](https://badge.fury.io/js/ng-test-runner)
+[![Coverage Status](https://coveralls.io/repos/github/Pragmatists/ng-test-runner/badge.svg?branch=master)](https://coveralls.io/github/Pragmatists/ng-test-runner?branch=master)
 
 ## Installation
 To install it, type:

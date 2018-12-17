@@ -6,6 +6,8 @@ cache:
   - node_modules
 before_deploy:
   - npm run build
+after_success:
+  - npm run report-coverage
 deploy:
   provider: npm
   email: hubert.legec@gmail.com

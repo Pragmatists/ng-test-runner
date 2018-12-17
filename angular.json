@@ -5,7 +5,7 @@
   "projects": {
     "ng-test-runner": {
       "root": "",
-      "sourceRoot": "test",
+      "sourceRoot": ".",
       "projectType": "application",
       "architect": {
         "build": {
