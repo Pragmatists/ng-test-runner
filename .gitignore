@@ -4,4 +4,5 @@
 *.iml
 *.tgz
 /dist
+/out-tsc
 /coverage
