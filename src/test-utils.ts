@@ -4,8 +4,6 @@ import { EventEmitter, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-export { http } from './server';
-
 export type Action = (fixture: ComponentFixture<any>) => Promise<any> | any;
 
 export interface Fixture {
@@ -370,11 +368,14 @@ export const expectThat = {
 
 function find(fixture: ComponentFixture<any>, selector: string): SearchableElement {
   const component = fixture.nativeElement as SearchableElement;
-  const element = component.querySelector<SearchableElement>(selector);
-  if (element) {
-    return element;
+  const elements = component.querySelectorAll<SearchableElement>(selector);
+  if (elements.length === 1) {
+    return elements[0];
+  } else if (elements.length > 1) {
+    throw new Error(`${elements.length} elements match ${selector} selector!`);
+  } else {
+    throw new Error(`Could not find ${selector} element!`);
   }
-  throw new Error(`Could not find ${selector} element!`);
 }
 
 function findAll(fixture: ComponentFixture<any>, selector: string): SearchableElement[] {
