@@ -2,6 +2,7 @@ src/
 test/
 tsconfig.json
 tslint.json
+angular.json
 karma.conf.js
 .travis.yml
 .gitignore

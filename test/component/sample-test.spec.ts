@@ -1,5 +1,4 @@
 import test, {App, blur, check, click, expectThat, http, keydown, Server, submit, type} from '../../src/index';
-
 import {AppComponent} from './app.component';
 import {AppModule} from './app.module';
 import {async} from '@angular/core/testing';
@@ -12,6 +11,10 @@ describe('Manager Component', () => {
     beforeEach(() => {
         app = test(AppModule);
         server = http();
+    });
+
+    afterEach(() => {
+        server.stop();
     });
 
     it('initial value', async(() => {
@@ -50,7 +53,7 @@ describe('Manager Component', () => {
 
     it('goodbye server response', async(() => {
         const comp = app.run(AppComponent);
-        server.post('/goodbye', (req) => req.sendJson({message: 'Goodbye Jane!'}));
+        server.post('/goodbye', req => req.sendJson({message: 'Goodbye Jane!'}));
 
         comp.perform(
             click.in('button.goodbye')
@@ -63,8 +66,8 @@ describe('Manager Component', () => {
 
     it('goodbye server token', async(() => {
         const comp = app.run(AppComponent);
-        server.post('/goodbye', (req) =>
-            req.sendResponse(200, JSON.stringify({message: 'Goodbye Jane!'}), { token: 'someToken' }));
+        server.post('/goodbye', req =>
+            req.sendResponse(200, JSON.stringify({message: 'Goodbye Jane!'}), {token: 'someToken'}));
 
         comp.perform(
             click.in('button.goodbye')
@@ -160,7 +163,7 @@ describe('Manager Component', () => {
 
     it('submit form to update status', async(() => {
         const comp = app.run(AppComponent);
-        server.put('/update', (req) => req.sendJson({message: 'Updated!'}));
+        server.put('/update', req => req.sendJson({message: 'Updated!'}));
 
         comp.perform(
             submit.form('form')
