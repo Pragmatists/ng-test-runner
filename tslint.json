@@ -12,6 +12,7 @@
     ],
     "ordered-imports": false,
     "only-arrow-functions": false,
-    "no-empty": false
+    "no-empty": false,
+    "arrow-parens": false
   }
 }

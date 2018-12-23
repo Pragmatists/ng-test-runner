@@ -53,7 +53,7 @@ describe('Manager Component', () => {
 
     it('goodbye server response', async(() => {
         const comp = app.run(AppComponent);
-        server.post('/goodbye', (req) => req.sendJson({message: 'Goodbye Jane!'}));
+        server.post('/goodbye', req => req.sendJson({message: 'Goodbye Jane!'}));
 
         comp.perform(
             click.in('button.goodbye')
@@ -66,7 +66,7 @@ describe('Manager Component', () => {
 
     it('goodbye server token', async(() => {
         const comp = app.run(AppComponent);
-        server.post('/goodbye', (req) =>
+        server.post('/goodbye', req =>
             req.sendResponse(200, JSON.stringify({message: 'Goodbye Jane!'}), {token: 'someToken'}));
 
         comp.perform(
@@ -163,7 +163,7 @@ describe('Manager Component', () => {
 
     it('submit form to update status', async(() => {
         const comp = app.run(AppComponent);
-        server.put('/update', (req) => req.sendJson({message: 'Updated!'}));
+        server.put('/update', req => req.sendJson({message: 'Updated!'}));
 
         comp.perform(
             submit.form('form')
