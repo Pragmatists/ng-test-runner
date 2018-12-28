@@ -13,8 +13,8 @@ export interface Server {
   stop(): void;
 }
 
-export interface Req {
-  body(): string;
+export interface Req<T = any> {
+  body(): T;
   query(): any;
   header(name: string): string;
   sendJson(json: any, headers?: any): void;
