@@ -1,14 +1,9 @@
 <h1 class="title"> {{title}} </h1>
 <input #nameInput class="name" [(ngModel)]="name" (blur)="onLeaveNameInput()">
 <input id="checkbox" type="checkbox" [(ngModel)]="checkboxValue" value="Example"> I agree to the terms<br>
-<div class="greeting">{{message}}</div>
+<div data-message class="greeting message">{{message}}</div>
 <div id="editor" contenteditable="true">This needs to be edited!</div>
 <button id="hello" (click)="sayHello()">Say hello</button>
-<button id="goodbye" class="goodbye" (click)="sayGoodbye()">Say goodbye</button>
-<form (ngSubmit)="update()">
-    <span id="status">{{status}}</span>
-    <span id="token">{{token}}</span>
-</form>
 <svg>
   <g>
     <rect class="box" x="10" y="20"></rect>
@@ -21,4 +16,3 @@
   <input id="radiobutton2" type="radio" name="gender" value="female">Female<br>
 </form>
 <span id="clickable" (click)="clicked()"></span>
-<span id="get" (click)="sendGet()">Send GET</span>

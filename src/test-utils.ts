@@ -381,10 +381,6 @@ function find(fixture: ComponentFixture<any>, selector: string): SearchableEleme
 function findAll(fixture: ComponentFixture<any>, selector: string): SearchableElement[] {
   const component = fixture.nativeElement as SearchableElement;
   const elements = component.querySelectorAll(selector);
-
-  const result = [];
-  for (let i = 0; i < elements.length; i++) {
-    result.push(elements.item(i));
-  }
-  return result;
+  return _.range(elements.length)
+      .map(idx => elements.item(idx) as SearchableElement);
 }

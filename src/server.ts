@@ -13,9 +13,9 @@ export interface Server {
   stop(): void;
 }
 
-export interface Req<T = any> {
+export interface Req<T = any, P = any> {
   body(): T;
-  query(): any;
+  query(): P;
   header(name: string): string;
   sendJson(json: any, headers?: any): void;
   sendStatus(status: number, json?: any, headers?: any): void;
