@@ -1,0 +1,20 @@
+<div>
+  <div data-username>{{username}}</div>
+  <div>
+    <button data-greeting-button (click)="onGreetingClick()">Greeting</button>
+    <div data-greeting-message>{{greetingMessage}}</div>
+    <div data-greeting-token>{{greetingToken}}</div>
+  </div>
+  <form (ngSubmit)="onUpdateUserClick()" data-update-user>
+    <div data-update-status>{{updateStatus}}</div>
+  </form>
+  <div>
+    <button data-fetch-users (click)="onFetchUsersClick()">Users list</button>
+    <div>
+      <div *ngFor="let user of users" data-user-item>
+        <div data-id>{{user.id}}</div>
+        <div data-name>{{user.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>
