@@ -30,12 +30,15 @@ export type SearchableElement = HTMLElement | SVGElement;
 function run(component: Type<any>, inputs: any = {}, outputs: any = {}): Fixture {
   const fixture = TestBed.createComponent(component);
   const componentInstance = fixture.componentInstance;
-  _.merge(componentInstance, inputs);
-  _.each(outputs, (listener, property) => {
-    const emitter = (componentInstance[property] || componentInstance[property + 'Change']) as EventEmitter<any>;
-    if (emitter) {
-      emitter.subscribe(listener);
-    }
+
+  fixture.ngZone.run(() => {
+    _.merge(componentInstance, inputs);
+    _.each(outputs, (listener, property) => {
+      const emitter = (componentInstance[property] || componentInstance[property + 'Change']) as EventEmitter<any>;
+      if (emitter) {
+        emitter.subscribe(listener);
+      }
+    });
   });
 
   fixture.autoDetectChanges();

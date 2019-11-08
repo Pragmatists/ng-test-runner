@@ -185,4 +185,13 @@ describe('Manager Component', () => {
         );
     }));
 
+    it('should wait for async operation invoked by setter', async(() => {
+
+        const comp = app.run(AppComponent, { asyncGreeter: 'John' });
+
+        comp.verify(
+          expectThat.textOf('[data-message]').isEqualTo('Oh, hello John')
+        );
+    }));
+
 });

@@ -21,6 +21,12 @@ export class AppComponent {
     this.message = `Hello ${this.name}!`;
   }
 
+  set asyncGreeter(name: string) {
+    setTimeout(() => {
+      this.message = `Oh, hello ${name}`;
+    }, 100);
+  }
+
   @HostListener('window:keydown', ['$event.target', '$event.key'])
   public onEnter(target, key) {
     if (this.nameInput.nativeElement === target && key.toLowerCase() === 'enter') {
