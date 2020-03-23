@@ -9,6 +9,7 @@ export interface Server {
   get: HttpMethod;
   delete: HttpMethod;
   put: HttpMethod;
+  patch: HttpMethod;
   respond(): void;
   stop(): void;
 }
@@ -29,6 +30,7 @@ export function http(config = { autoRespond: true, respondImmediately: true }): 
   const that = {
     delete: method('DELETE'),
     get: method('GET'),
+    patch: method('PATCH'),
     post: method('POST'),
     put: method('PUT'),
     respond() {

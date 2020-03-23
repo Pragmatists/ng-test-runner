@@ -24,6 +24,7 @@ export class HttpComponent implements OnInit {
     public greetingMessage: string;
     public greetingToken: string;
     public updateStatus: number;
+    public partialUpdateStatus: number;
     public users: UserResponse[] = [];
 
     @Input()
@@ -49,6 +50,12 @@ export class HttpComponent implements OnInit {
         this.http.put('/me', {name: 'Tom'}, {observe: 'response'}).pipe(
             map(response => response.status)
         ).subscribe(status => this.updateStatus = status);
+    }
+
+    public onPartialUpdateUserClick() {
+        this.http.patch('/me', {name: 'Tom'}, {observe: 'response'}).pipe(
+            map(response => response.status)
+        ).subscribe(status => this.partialUpdateStatus = status);
     }
 
     public onFetchUsersClick() {
