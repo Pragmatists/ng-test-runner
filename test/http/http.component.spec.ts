@@ -74,6 +74,19 @@ describe('HTTP Server', () => {
         );
     }));
 
+    it('should return custom HTTP status on partial form submit', async(() => {
+        server.patch('/me', req => req.sendStatus(204));
+        const component = app.run(HttpComponent, {userId: 1});
+
+        component.perform(
+            submit.form(partialUpdateUserForm())
+        );
+
+        component.verify(
+            expectThat.textOf(partialUpdateStatus()).isEqualTo('204')
+        );
+    }));
+
     it('should filter users by query param', async(() => {
         server.get(/\/users\?.*/, (req: Req<{}, { name: string }>) => {
             const users = [
@@ -116,8 +129,16 @@ describe('HTTP Server', () => {
         return '[data-update-user]';
     }
 
+    function partialUpdateUserForm() {
+        return '[data-partial-update-user]';
+    }
+
     function updateStatus() {
         return '[data-update-status]';
+    }
+
+    function partialUpdateStatus() {
+        return '[data-partial-update-status]';
     }
 
     function fetchUsersButton() {

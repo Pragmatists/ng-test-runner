@@ -8,6 +8,9 @@
   <form (ngSubmit)="onUpdateUserClick()" data-update-user>
     <div data-update-status>{{updateStatus}}</div>
   </form>
+  <form (ngSubmit)="onPartialUpdateUserClick()" data-partial-update-user>
+    <div data-partial-update-status>{{partialUpdateStatus}}</div>
+  </form>
   <div>
     <button data-fetch-users (click)="onFetchUsersClick()">Users list</button>
     <div>
