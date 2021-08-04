@@ -58,6 +58,12 @@ export class HttpComponent implements OnInit {
         ).subscribe(status => this.partialUpdateStatus = status);
     }
 
+    public onSendFormDataClick() {
+        const formData = new FormData();
+        formData.set('field-1', 'value-1');
+        this.http.post('/me', formData).subscribe();
+    }
+
     public onFetchUsersClick() {
         this.http.get<UserResponse[]>('/users', {params: {name: 'John'}})
             .subscribe(users => this.users = users);
@@ -66,6 +72,7 @@ export class HttpComponent implements OnInit {
     private onGreetingResponse(response: HttpResponse<GreetingResponse>) {
         const {body, headers} = response;
         this.greetingMessage = body.message;
+
         this.greetingToken = headers.get('token');
     }
 }

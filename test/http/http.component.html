@@ -11,6 +11,7 @@
   <form (ngSubmit)="onPartialUpdateUserClick()" data-partial-update-user>
     <div data-partial-update-status>{{partialUpdateStatus}}</div>
   </form>
+  <div (click)="onSendFormDataClick()" data-post-form-data></div>
   <div>
     <button data-fetch-users (click)="onFetchUsersClick()">Users list</button>
     <div>

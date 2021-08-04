@@ -16,6 +16,7 @@ export interface Server {
 
 export interface Req<T = any, P = any> {
   body(): T;
+  rawBody(): T;
   query(): P;
   header(name: string): string;
   sendJson(json: any, headers?: any): void;
@@ -56,6 +57,9 @@ function wrap(req: SinonFakeXMLHttpRequest): Req {
   return {
     body() {
       return JSON.parse(req.requestBody);
+    },
+    rawBody() {
+      return req.requestBody;
     },
     query() {
       const query = req.url.split('#')[0].split('?')[1];
