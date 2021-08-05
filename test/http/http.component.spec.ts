@@ -87,6 +87,23 @@ describe('HTTP Server', () => {
         );
     }));
 
+    it('should allow to retrieve raw request body', async(() => {
+        let requestBody: FormData;
+        server.post('/me', req => {
+            requestBody = req.rawBody();
+            req.sendStatus(200);
+        });
+        const component = app.run(HttpComponent, {userId: 1});
+
+        component.perform(
+            click.in('[data-post-form-data]')
+        );
+
+        component.verify(
+            () => expect(requestBody.get('field-1')).toBe('value-1')
+        );
+    }));
+
     it('should filter users by query param', async(() => {
         server.get(/\/users\?.*/, (req: Req<{}, { name: string }>) => {
             const users = [
